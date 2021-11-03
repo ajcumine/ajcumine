@@ -4,7 +4,7 @@ const InfoPanel = () => (
   <>
     <p>@ajcumine</p>
     <h1>Andy Cumine</h1>
-    <h3>Full Stack Software Engineer</h3>
+    <h3>Engineering Manager @ Second Nature</h3>
   </>
 );
 
