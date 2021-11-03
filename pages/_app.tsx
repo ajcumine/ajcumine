@@ -1,5 +1,4 @@
 import '../styles/globals.css';
-import '../styles/fonts.css';
 
 import React from 'react';
 

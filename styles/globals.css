@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
@@ -137,4 +139,29 @@ html,
 body,
 div#__next {
   height: 100%;
+}
+
+h1 {
+  font-size: 4.4em;
+  margin-bottom: 1.6rem;
+}
+
+h2 {
+  font-size: 2.8em;
+  margin-bottom: 1.2rem;
+}
+
+h3 {
+  font-size: 2.4em;
+  margin-bottom: 1.2rem;
+}
+
+a,
+p {
+  font-size: 1.6em;
+  margin-bottom: 0.8rem;
+}
+
+a {
+  text-decoration: none;
 }
