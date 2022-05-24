@@ -13,7 +13,7 @@ const ContentWrapper = styled.div`
   margin: 0 1.6rem;
   @media (min-width: ${styles.size.tablet}) {
     max-width: 860px;
-    margin 0 auto;
+    margin: 0 auto;
     width: 100%;
   }
   @media (min-width: ${styles.size.desktop}) {
