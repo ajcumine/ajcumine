@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import styles from '../styles/variables';
 
 const Wrapper = styled.div`
-  background-color: ${styles.color.yellow};
+  background-color: ${styles.color.dark};
+  color: ${styles.color.darkText};
   height: 100%;
   font-family: 'Fira Code';
   display: flex;
