@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import styles from '../styles/variables';
 
 const FooterWrapper = styled.footer`
-  background-color: ${styles.color.black};
-  color: ${styles.color.yellow};
+  background-color: ${styles.color.dark};
+  color: ${styles.color.light};
   flex-shrink: 0;
   height: 4.8rem;
   padding: 1.2rem 1.6em;
