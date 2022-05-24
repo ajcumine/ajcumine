@@ -2,10 +2,10 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import Footer from '../components/footer';
-import HeaderImage from '../components/header-image';
-import InfoPanel from '../components/info-panel';
-import Page from '../components/page';
+import Footer from '../components/Footer';
+import HeaderImage from '../components/HeaderImage';
+import InfoPanel from '../components/InfoPanel';
+import Page from '../components/Page';
 import styles from '../styles/variables';
 
 const ContentWrapper = styled.div`
