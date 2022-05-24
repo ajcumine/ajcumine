@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import styled from "styled-components";
 
@@ -6,7 +6,7 @@ import { color } from "../styles/variables";
 
 export interface TypographyProps
   extends React.HTMLAttributes<HTMLButtonElement> {
-  variant: "h1" | "h2" | "h3" | "a" | "body" | "secondary";
+  variant: "h1" | "h2" | "h3" | "body" | "secondary";
   children: React.ReactNode;
 }
 
@@ -20,12 +20,6 @@ const H2 = styled.h2`
 
 const H3 = styled.h3`
   font-size: 2.4em;
-`;
-
-const Link = styled.a`
-  font-size: 1.6em;
-  text-decoration: none;
-  color: ${color.magenta};
 `;
 
 const Body = styled.p`
@@ -47,9 +41,6 @@ export const Typography = (props: TypographyProps) => {
   case "h3":
     return <H3>{props.children}</H3>;
     break;
-  case "a":
-    return <Link>{props.children}</Link>;
-    break;
   case "body":
     return <Body>{props.children}</Body>;
     break;
@@ -62,3 +53,11 @@ export const Typography = (props: TypographyProps) => {
     break;
   }
 };
+
+export const StyledLink = styled.a<{active: boolean}>`
+  font-size: 1.6em;
+  text-decoration: none;
+  color: ${props => props.active ? color.magenta :color.yellow};
+  border-bottom: 0.2rem solid;
+  border-color: ${props => props.active ? color.magenta : color.dark};
+`;
