@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "styled-components";
 
-import styles from "../styles/variables";
+import { color } from "../styles/variables";
 
 export interface TypographyProps
   extends React.HTMLAttributes<HTMLButtonElement> {
@@ -25,7 +25,7 @@ const H3 = styled.h3`
 const Link = styled.a`
   font-size: 1.6em;
   text-decoration: none;
-  color: ${styles.color.magenta};
+  color: ${color.magenta};
 `;
 
 const Body = styled.p`
@@ -36,7 +36,7 @@ const Secondary = styled.p`
   font-size: 1.6em;
 `;
 
-const Typography = (props: TypographyProps) => {
+export const Typography = (props: TypographyProps) => {
   switch (props.variant) {
   case "h1":
     return <H1>{props.children}</H1>;
@@ -62,5 +62,3 @@ const Typography = (props: TypographyProps) => {
     break;
   }
 };
-
-export default Typography;

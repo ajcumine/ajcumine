@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import Typography from './Typography';
+import { Typography } from './Typography';
 
 const BodyWrapper = styled.div`
   margin-bottom: 0.8rem;
@@ -12,7 +12,7 @@ const TitleWrapper = styled.div`
   margin-bottom: 1.6rem;
 `;
 
-const InfoPanel = () => (
+export const InfoPanel = () => (
   <>
     <BodyWrapper>
       <Typography variant='body'>@ajcumine</Typography>
@@ -24,4 +24,3 @@ const InfoPanel = () => (
   </>
 );
 
-export default InfoPanel;
