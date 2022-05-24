@@ -1,4 +1,4 @@
-const color = {
+export const color = {
   dark: "#002b36",
   light: "#fdf6e3",
   darkText: "#839496",
@@ -12,12 +12,11 @@ const color = {
   green: "#859900",
 };
 
-const size = {
+export const size = {
   mobile: '360px',
   tablet: '900px',
   desktop: '1200px',
 };
 
-const styles = { color, size };
+export const styles = { color, size };
 
-export default styles;

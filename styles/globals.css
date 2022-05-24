@@ -140,28 +140,3 @@ body,
 div#__next {
   height: 100%;
 }
-
-h1 {
-  font-size: 4.4em;
-  margin-bottom: 1.6rem;
-}
-
-h2 {
-  font-size: 2.8em;
-  margin-bottom: 1.2rem;
-}
-
-h3 {
-  font-size: 2.4em;
-  margin-bottom: 1.2rem;
-}
-
-a,
-p {
-  font-size: 1.6em;
-  margin-bottom: 0.8rem;
-}
-
-a {
-  text-decoration: none;
-}

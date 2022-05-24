@@ -7,6 +7,5 @@ const Wrapper = styled.div`
   height: 20rem;
 `;
 
-const HeaderImage = () => <Wrapper />;
+export const HeaderImage = () => <Wrapper />;
 
-export default HeaderImage;
