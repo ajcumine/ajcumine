@@ -1,12 +1,12 @@
 import React from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { color } from "../styles/variables";
+import { color } from '../styles/variables';
 
 export interface TypographyProps
   extends React.HTMLAttributes<HTMLButtonElement> {
-  variant: "h1" | "h2" | "h3" | "body" | "secondary";
+  variant: 'h1' | 'h2' | 'h3' | 'body' | 'secondary';
   children: React.ReactNode;
 }
 
@@ -32,25 +32,19 @@ const Secondary = styled.p`
 
 export const Typography = (props: TypographyProps) => {
   switch (props.variant) {
-  case "h1":
+  case 'h1':
     return <H1>{props.children}</H1>;
-    break;
-  case "h2":
+  case 'h2':
     return <H2>{props.children}</H2>;
-    break;
-  case "h3":
+  case 'h3':
     return <H3>{props.children}</H3>;
-    break;
-  case "body":
+  case 'body':
     return <Body>{props.children}</Body>;
-    break;
-  case "secondary":
+  case 'secondary':
     return <Secondary>{props.children}</Secondary>;
-    break;
 
   default:
     return <Body>{props.children}</Body>;
-    break;
   }
 };
 

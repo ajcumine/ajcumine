@@ -1,9 +1,11 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import styled from "styled-components";
+import React from 'react';
 
-import { color } from "../styles/variables";
-import { StyledLink } from "./Typography";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+
+import { color } from '../styles/variables';
+import { StyledLink } from './Typography';
 
 const NavBarWrapper = styled.nav`
   background-color: ${color.dark};
