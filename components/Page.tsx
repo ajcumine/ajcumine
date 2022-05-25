@@ -40,7 +40,7 @@ const TitleDecorator = styled.div`
   border-radius: 0.1rem;
 `;
 
-export const Page = ({ children, title }: { children: React.ReactNode, title?: string }) => (
+export const Page = ({ children, title }: { children?: React.ReactNode, title?: string }) => (
   <Wrapper>
     <NavBar />
     <ContentWrapper>
@@ -55,4 +55,3 @@ export const Page = ({ children, title }: { children: React.ReactNode, title?: s
     <Footer />
   </Wrapper>
 );
-

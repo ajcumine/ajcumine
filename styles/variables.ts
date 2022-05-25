@@ -20,4 +20,3 @@ export const size = {
 };
 
 export const styles = { color, size };
-

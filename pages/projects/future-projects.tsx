@@ -17,7 +17,7 @@ const FutureProjects = ({ content }: {content: string}) => {
 
   return(
     <Page>
-      <Markdown content={content}/>
+      <Markdown content={content} />
     </Page>
   );
 };

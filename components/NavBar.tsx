@@ -32,6 +32,10 @@ export const NavBar = () => {
       name: 'Home',
     },
     {
+      href: '/about',
+      name: 'About',
+    },
+    {
       href: '/blog',
       name: 'Blog',
     },
