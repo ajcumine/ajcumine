@@ -23,10 +23,12 @@ const H3 = styled.h3`
 
 const Body = styled.p`
   font-size: 1.6em;
+  line-height: 2.4rem;
 `;
 
 const Secondary = styled.p`
   font-size: 1.6em;
+  line-height: 2.4rem;
 `;
 
 export const Typography = ({ variant, children }: TypographyProps) => {
@@ -47,10 +49,12 @@ export const Typography = ({ variant, children }: TypographyProps) => {
   }
 };
 
-export const StyledLink = styled.a<{active: boolean}>`
-  font-size: 1.6em;
+export const AnchorLink = styled.a`
+  font-size: 100%;
+  color: ${color.yellow};
   text-decoration: none;
-  color: ${props => props.active ? color.magenta :color.yellow};
-  border-bottom: 0.2rem solid;
-  border-color: ${props => props.active ? color.magenta : color.dark};
+
+  :hover {
+    text-decoration: underline;
+  }
 `;

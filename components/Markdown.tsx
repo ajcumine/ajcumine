@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { color } from '../styles/variables';
 import { BulletList, BulletListItem } from './BulletList';
-import { Typography } from './Typography';
+import { AnchorLink, Typography } from './Typography';
 
 const TitleWrapper = styled.div`
   margin-bottom: 1.4rem;
@@ -79,6 +79,13 @@ const List = ({ children }: {children: React.ReactNode & React.ReactNode[]}) => 
   </ListWrapper>
 );
 
+const HorizontalRule = styled.hr`
+  margin-bottom: 1.6rem;
+  border: 0.1rem solid;
+  border-radius: 0.1rem;
+  border-color: ${color.cyan};
+`;
+
 const componentMap: Components = {
   h1: ({ children }) => <H1>{children}</H1>,
   h2: ({ children }) => <H2>{children}</H2>,
@@ -86,6 +93,8 @@ const componentMap: Components = {
   p: ({ children }) => <P>{children}</P>,
   li: ({ children }) => <ListItem>{children}</ListItem>,
   ul: ({ children }) => <List>{children}</List>,
+  a: ({ children, href }) => <AnchorLink href={href}>{children}</AnchorLink>,
+  hr: () => <HorizontalRule />,
 };
 
 export const Markdown = ({ content }: {content: string}) => (
