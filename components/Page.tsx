@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { color, size } from '../styles/variables';
 import { Footer } from './Footer';
 import { NavBar } from './NavBar';
+import { Typography } from './Typography';
 
 const Wrapper = styled.div`
   background-color: ${color.dark};
@@ -28,10 +29,27 @@ const ContentWrapper = styled.div`
   }
 `;
 
-export const Page = ({ children }: { children: React.ReactNode }) => (
+const TitleWrapper = styled.div`
+  margin-bottom: 1.4rem;
+`;
+
+const TitleDecorator = styled.div`
+  width: 4rem;
+  height: 0.2rem;
+  background-color: ${color.yellow};
+  border-radius: 0.1rem;
+`;
+
+export const Page = ({ children, title }: { children: React.ReactNode, title?: string }) => (
   <Wrapper>
     <NavBar />
     <ContentWrapper>
+      {title && (
+        <TitleWrapper>
+          <Typography variant='h1'>{title}</Typography>
+          <TitleDecorator />
+        </TitleWrapper>
+      )}
       {children}
     </ContentWrapper>
     <Footer />

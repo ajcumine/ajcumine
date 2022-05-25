@@ -4,8 +4,7 @@ import styled from 'styled-components';
 
 import { color } from '../styles/variables';
 
-export interface TypographyProps
-  extends React.HTMLAttributes<HTMLButtonElement> {
+interface TypographyProps {
   variant: 'h1' | 'h2' | 'h3' | 'body' | 'secondary';
   children: React.ReactNode;
 }

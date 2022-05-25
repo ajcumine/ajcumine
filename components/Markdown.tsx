@@ -4,17 +4,25 @@ import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown';
 import styled from 'styled-components';
 
+import { color } from '../styles/variables';
 import { BulletList, BulletListItem } from './BulletList';
 import { Typography } from './Typography';
 
-const H1Wrapper = styled.div`
-  margin-bottom: 1.6rem;
+const TitleWrapper = styled.div`
+  margin-bottom: 1.4rem;
+`;
+const TitleDecorator = styled.div`
+  width: 4rem;
+  height: 0.2rem;
+  background-color: ${color.yellow};
+  border-radius: 0.1rem;
 `;
 
 const H1 = ({ children }: {children: React.ReactNode}) => (
-  <H1Wrapper>
+  <TitleWrapper>
     <Typography variant='h1'>{children}</Typography>
-  </H1Wrapper>
+    <TitleDecorator></TitleDecorator>
+  </TitleWrapper>
 );
 
 const H2Wrapper = styled.div`
