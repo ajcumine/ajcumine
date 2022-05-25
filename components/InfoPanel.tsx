@@ -26,9 +26,8 @@ export const InfoPanel = () => (
     </BodyWrapper>
     <TitleWrapper>
       <Typography variant='h1'>Andy Cumine</Typography>
-      <TitleDecorator/>
+      <TitleDecorator />
     </TitleWrapper>
     <Typography variant='h3'>Engineering Manager @ Second Nature</Typography>
   </>
 );
-

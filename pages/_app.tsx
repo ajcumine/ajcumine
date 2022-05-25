@@ -9,7 +9,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
   <>
     <Head>
       <title>@ajcumine</title>
-      <link rel="icon" href="/favicon.ico" />
+      <link href="/favicon.ico" rel="icon" />
     </Head>
     <Component {...pageProps} />
   </>

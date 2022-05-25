@@ -21,7 +21,7 @@ const TitleDecorator = styled.div`
 const H1 = ({ children }: {children: React.ReactNode}) => (
   <TitleWrapper>
     <Typography variant='h1'>{children}</Typography>
-    <TitleDecorator></TitleDecorator>
+    <TitleDecorator />
   </TitleWrapper>
 );
 
@@ -79,7 +79,6 @@ const List = ({ children }: {children: React.ReactNode & React.ReactNode[]}) => 
   </ListWrapper>
 );
 
-
 const componentMap: Components = {
   h1: ({ children }) => <H1>{children}</H1>,
   h2: ({ children }) => <H2>{children}</H2>,
@@ -88,7 +87,6 @@ const componentMap: Components = {
   li: ({ children }) => <ListItem>{children}</ListItem>,
   ul: ({ children }) => <List>{children}</List>,
 };
-
 
 export const Markdown = ({ content }: {content: string}) => (
   <ReactMarkdown components={componentMap}>{content}</ReactMarkdown>

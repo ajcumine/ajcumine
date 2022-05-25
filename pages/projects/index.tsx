@@ -21,12 +21,11 @@ const projects: ProjectType[] = [
   },
 ];
 
-
 const Projects = () => (
   <Page title='Projects'>
     <ProjectsWrapper>
       {projects.map(project => (
-        <ProjectCard key={project.href} {...project}/>
+        <ProjectCard key={project.href} {...project} />
       ))}
     </ProjectsWrapper>
   </Page>

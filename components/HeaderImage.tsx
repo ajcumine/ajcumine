@@ -8,4 +8,3 @@ const Wrapper = styled.div`
 `;
 
 export const HeaderImage = () => <Wrapper />;
-
