@@ -26,7 +26,6 @@ const ListItem = styled.li`
 
 export const NavBar = () => {
   const router = useRouter();
-  console.log({ router });
   const routes = [
     {
       href: '/',
