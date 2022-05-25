@@ -1,11 +1,34 @@
 import React from 'react';
 
+import styled from 'styled-components';
+
 import { Page } from '../../components/Page';
-import { Typography } from '../../components/Typography';
+import { ProjectCard } from '../../components/ProjectCard';
+
+const ProjectsWrapper = styled.div``;
+
+interface ProjectType {
+  title: string;
+  description: string;
+  href: string;
+}
+
+const projects: ProjectType[] = [
+  {
+    title: 'Future projects',
+    description: 'things I might build in the future',
+    href: '/projects/future-projects',
+  },
+];
+
 
 const Projects = () => (
-  <Page>
-    <Typography variant='h1'>Coming soon™</Typography>
+  <Page title='Projects'>
+    <ProjectsWrapper>
+      {projects.map(project => (
+        <ProjectCard key={project.href} {...project}/>
+      ))}
+    </ProjectsWrapper>
   </Page>
 );
 
