@@ -10,7 +10,7 @@ import { Typography } from './Typography';
 const Wrapper = styled.div`
   background-color: ${color.dark};
   color: ${color.darkText};
-  height: 100%;
+  min-height: 100%;
   font-family: 'Fira Code';
   display: flex;
   flex-direction: column;

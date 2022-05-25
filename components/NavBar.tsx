@@ -5,7 +5,18 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import { color } from '../styles/variables';
-import { StyledLink } from './Typography';
+
+export const StyledLink = styled.a<{active: boolean}>`
+  font-size: 1.6em;
+  text-decoration: none;
+  color: ${props => props.active ? color.magenta :color.yellow};
+  border-bottom: 0.2rem solid;
+  border-color: ${props => props.active ? color.magenta : color.dark};
+
+  :hover {
+    border-color: ${props => props.active ? color.magenta : color.yellow};
+  }
+`;
 
 const NavBarWrapper = styled.nav`
   background-color: ${color.dark};
