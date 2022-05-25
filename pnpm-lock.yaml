@@ -8,6 +8,7 @@ specifiers:
   eslint-config-next: ^12.1.6
   eslint-config-prettier: ^8.5.0
   eslint-plugin-import: ^2.26.0
+  eslint-plugin-react: ^7.30.0
   next: ^12.1.6
   prettier: ^2.6.2
   react: ^18.1.0
@@ -33,6 +34,7 @@ devDependencies:
   eslint-config-next: 12.1.6_zvyojjozjfatsvh7rlqywb6lme
   eslint-config-prettier: 8.5.0_eslint@8.16.0
   eslint-plugin-import: 2.26.0_eslint@8.16.0
+  eslint-plugin-react: 7.30.0_eslint@8.16.0
   prettier: 2.6.2
   typescript: 4.6.4
 
