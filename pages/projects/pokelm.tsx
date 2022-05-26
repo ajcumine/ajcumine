@@ -1,12 +1,21 @@
+import fs from 'fs/promises';
+
 import React from 'react';
 
+import { Markdown } from '../../components/Markdown';
 import { Page } from '../../components/Page';
-import { Typography } from '../../components/Typography';
 
-const Pokelm = () => (
+export async function getStaticProps() {
+  const content = await fs.readFile('public/docs/projects/pokelm.md',{ encoding: 'utf8' });
+
+  return {
+    props: { content },
+  };
+}
+const PokElm = ({ content }: {content: string}) => (
   <Page>
-    <Typography variant='h1'>Pokelm</Typography>
+    <Markdown content={content} />
   </Page>
 );
 
-export default Pokelm;
+export default PokElm;

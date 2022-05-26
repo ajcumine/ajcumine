@@ -10,24 +10,24 @@ interface TypographyProps {
 }
 
 const H1 = styled.h1`
-  font-size: 4.4em;
+  font-size: 4.4rem;
 `;
 
 const H2 = styled.h2`
-  font-size: 2.8em;
+  font-size: 2.8rem;
 `;
 
 const H3 = styled.h3`
-  font-size: 2.4em;
+  font-size: 2.4rem;
 `;
 
-const Body = styled.p`
-  font-size: 1.6em;
+const Body = styled.div`
+  font-size: 1.6rem;
   line-height: 2.4rem;
 `;
 
-const Secondary = styled.p`
-  font-size: 1.6em;
+const Secondary = styled.div`
+  font-size: 1.6rem;
   line-height: 2.4rem;
 `;
 
@@ -50,7 +50,6 @@ export const Typography = ({ variant, children }: TypographyProps) => {
 };
 
 export const AnchorLink = styled.a`
-  font-size: 100%;
   color: ${color.yellow};
   text-decoration: none;
 
