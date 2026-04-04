@@ -6,15 +6,15 @@ import styled from 'styled-components';
 
 import { color } from '../styles/variables';
 
-export const StyledLink = styled.a<{active: boolean}>`
+export const StyledLink = styled(Link)<{ $active: boolean }>`
   font-size: 1.6em;
   text-decoration: none;
-  color: ${props => props.active ? color.magenta :color.yellow};
+  color: ${(props) => (props.$active ? color.magenta : color.yellow)};
   border-bottom: 0.2rem solid;
-  border-color: ${props => props.active ? color.magenta : color.dark};
+  border-color: ${(props) => (props.$active ? color.magenta : color.dark)};
 
-  :hover {
-    border-color: ${props => props.active ? color.magenta : color.yellow};
+  &:hover {
+    border-color: ${(props) => (props.$active ? color.magenta : color.yellow)};
   }
 `;
 
@@ -38,22 +38,10 @@ const ListItem = styled.li`
 export const NavBar = () => {
   const router = useRouter();
   const routes = [
-    {
-      href: '/',
-      name: 'Home',
-    },
-    {
-      href: '/about',
-      name: 'About',
-    },
-    {
-      href: '/blog',
-      name: 'Blog',
-    },
-    {
-      href: '/projects',
-      name: 'Projects',
-    },
+    { href: '/', name: 'Home' },
+    { href: '/about', name: 'About' },
+    { href: '/blog', name: 'Blog' },
+    { href: '/projects', name: 'Projects' },
   ];
 
   return (
@@ -61,9 +49,9 @@ export const NavBar = () => {
       <ul>
         {routes.map(({ href, name }) => (
           <ListItem key={name}>
-            <Link href={href} passHref>
-              <StyledLink active={router.asPath === href}>{name}</StyledLink>
-            </Link>
+            <StyledLink href={href} $active={router.asPath === href}>
+              {name}
+            </StyledLink>
           </ListItem>
         ))}
       </ul>
