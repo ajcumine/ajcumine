@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { color, size } from '../styles/variables';
+
 import { Footer } from './Footer';
 import { NavBar } from './NavBar';
 import { Typography } from './Typography';
