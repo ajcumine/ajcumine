@@ -1,0 +1,14 @@
+# Build outputs
+.next
+out
+build
+next-env.d.ts
+
+# Dependencies
+node_modules
+
+# Package manager
+pnpm-lock.yaml
+
+# Public static assets
+public
