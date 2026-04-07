@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FaGithub, FaTwitch, FaTwitter } from 'react-icons/fa';
+import { FaGamepad, FaGithub, FaTwitch, FaTwitter } from 'react-icons/fa';
 import styled from 'styled-components';
 
 import { color } from '../styles/variables';
@@ -24,8 +24,23 @@ const LogoLink = styled.a`
   margin-bottom: 0;
 `;
 
+const HiddenLink = styled.a`
+  font-size: 2em;
+  color: ${color.dark};
+  margin-right: auto;
+  margin-bottom: 0;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: ${color.darkText};
+  }
+`;
+
 export const Footer = () => (
   <FooterWrapper>
+    <HiddenLink href="/walkthroughs">
+      <FaGamepad />
+    </HiddenLink>
     <LogoLink href="https://twitch.tv/piphop">
       <FaTwitch />
     </LogoLink>
