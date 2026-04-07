@@ -8,15 +8,39 @@ import { Typography } from './Typography';
 
 // --- Types ---
 
-interface ChecklistItem {
+interface ChecklistBlock {
+  type: 'checklist';
   id: string;
   tag: string;
   text: string;
 }
 
+interface SubheadingBlock {
+  type: 'subheading';
+  text: string;
+}
+
+interface TextBlock {
+  type: 'text';
+  text: string;
+}
+
+interface TableBlock {
+  type: 'table';
+  headers: string[];
+  rows: string[][];
+}
+
+interface OrderedListBlock {
+  type: 'ordered-list';
+  items: string[];
+}
+
+type SectionBlock = ChecklistBlock | SubheadingBlock | TextBlock | TableBlock | OrderedListBlock;
+
 interface Section {
   title: string;
-  items: ChecklistItem[];
+  blocks: SectionBlock[];
 }
 
 interface WalkthroughData {
@@ -41,16 +65,52 @@ const tagColors: Record<string, string> = {
   Side: color.darkText,
   Misc: color.darkText,
   Collectible: color.cyan,
+  // FM24 Chelsea tags
+  Chelsea: color.blue,
+  Global: color.violet,
+  Immediate: color.green,
+  Future: color.cyan,
+  Sell: color.red,
+  Scout: color.darkText,
+  Hijack: color.orange,
+  Actual: color.magenta,
+  Keep: color.yellow,
+  Develop: color.green,
 };
+
+const paletteColors = [
+  color.yellow,
+  color.orange,
+  color.red,
+  color.magenta,
+  color.violet,
+  color.blue,
+  color.cyan,
+  color.green,
+];
 
 const getTagColor = (tag: string): string => {
   if (tagColors[tag]) return tagColors[tag];
   const prefix = tag.split(' - ')[0];
   if (prefix && tagColors[prefix]) return tagColors[prefix];
-  return color.darkText;
+  let hash = 0;
+  for (const ch of tag) hash = (hash * 31 + ch.charCodeAt(0)) | 0;
+  return paletteColors[Math.abs(hash) % paletteColors.length] ?? color.darkText;
 };
 
 // --- Markdown parser ---
+
+const parseTable = (lines: string[]): TableBlock => {
+  const parseRow = (line: string): string[] =>
+    line
+      .split('|')
+      .slice(1, -1)
+      .map((cell) => cell.trim());
+
+  const headers = parseRow(lines[0] ?? '');
+  const rows = lines.slice(2).map(parseRow);
+  return { type: 'table', headers, rows };
+};
 
 const parseWalkthrough = (content: string): WalkthroughData => {
   const lines = content.split('\n');
@@ -60,41 +120,107 @@ const parseWalkthrough = (content: string): WalkthroughData => {
   let currentSection: Section | null = null;
   let itemCounter = 0;
   let inDescription = false;
+  let tableBuffer: string[] = [];
+  let orderedListBuffer: string[] = [];
+
+  const flushTable = () => {
+    if (tableBuffer.length >= 3 && currentSection) {
+      currentSection.blocks.push(parseTable(tableBuffer));
+    }
+    tableBuffer = [];
+  };
+
+  const flushOrderedList = () => {
+    if (orderedListBuffer.length > 0 && currentSection) {
+      currentSection.blocks.push({ type: 'ordered-list', items: [...orderedListBuffer] });
+    }
+    orderedListBuffer = [];
+  };
 
   for (const line of lines) {
     const trimmed = line.trim();
 
+    // H1 title
     if (trimmed.startsWith('# ') && !trimmed.startsWith('## ')) {
+      flushTable();
+      flushOrderedList();
       title = trimmed.replace(/^# /, '');
       inDescription = true;
       continue;
     }
 
+    // H2 section heading
     if (trimmed.startsWith('## ')) {
+      flushTable();
+      flushOrderedList();
       inDescription = false;
       currentSection = {
         title: trimmed.replace(/^## /, ''),
-        items: [],
+        blocks: [],
       };
       sections.push(currentSection);
       continue;
     }
 
-    if (inDescription && trimmed && !trimmed.startsWith('---') && !trimmed.startsWith('**')) {
+    // Description paragraph (between H1 and first H2)
+    if (inDescription && trimmed && !trimmed.startsWith('---')) {
       if (description) description += ' ';
       description += trimmed;
       continue;
     }
 
+    // Skip horizontal rules and empty lines
+    if (!trimmed || trimmed === '---') {
+      flushTable();
+      flushOrderedList();
+      continue;
+    }
+
+    if (!currentSection) continue;
+
+    // Table rows
+    if (trimmed.startsWith('|')) {
+      flushOrderedList();
+      tableBuffer.push(trimmed);
+      continue;
+    } else {
+      flushTable();
+    }
+
+    // H3 sub-heading
+    if (trimmed.startsWith('### ')) {
+      flushOrderedList();
+      currentSection.blocks.push({ type: 'subheading', text: trimmed.replace(/^### /, '') });
+      continue;
+    }
+
+    // Checklist item
     const checkboxMatch = trimmed.match(/^- \[ \] `([^`]+)` (.+)$/);
-    if (checkboxMatch?.[1] && checkboxMatch[2] && currentSection) {
-      currentSection.items.push({
+    if (checkboxMatch?.[1] && checkboxMatch[2]) {
+      flushOrderedList();
+      currentSection.blocks.push({
+        type: 'checklist',
         id: `item-${itemCounter++}`,
         tag: checkboxMatch[1],
         text: checkboxMatch[2],
       });
+      continue;
     }
+
+    // Ordered list item
+    const olMatch = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (olMatch?.[1]) {
+      orderedListBuffer.push(olMatch[1]);
+      continue;
+    }
+
+    // Plain text / bold text
+    flushOrderedList();
+    currentSection.blocks.push({ type: 'text', text: trimmed });
   }
+
+  flushTable();
+  flushOrderedList();
 
   return { title, description, sections };
 };
@@ -335,11 +461,6 @@ const LegendItem = styled.div`
   margin-bottom: 0.6rem;
 `;
 
-const LegendLabel = styled.span<{ $color: string }>`
-  color: ${(props) => props.$color};
-  font-weight: bold;
-`;
-
 const LegendSection = styled.div`
   margin-top: 1.2rem;
 `;
@@ -350,12 +471,86 @@ const LegendSectionTitle = styled.div`
   margin-bottom: 0.4rem;
 `;
 
-const LegendRow = styled.div`
-  font-size: 1.2rem;
-  line-height: 1.8rem;
-  color: ${color.darkText};
-  margin-bottom: 0.2rem;
+const SubHeadingWrapper = styled.div`
+  margin-top: 1.6rem;
+  margin-bottom: 0.8rem;
 `;
+
+const TextBlockWrapper = styled.div`
+  font-size: 1.4rem;
+  line-height: 2rem;
+  color: ${color.light};
+  margin-bottom: 0.8rem;
+
+  strong {
+    color: ${color.yellow};
+    font-weight: bold;
+  }
+`;
+
+const StyledTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.2rem;
+  font-size: 1.2rem;
+`;
+
+const TableHead = styled.thead`
+  border-bottom: 0.2rem solid ${color.yellow};
+`;
+
+const TableHeaderCell = styled.th`
+  text-align: left;
+  padding: 0.6rem 1.2rem;
+  color: ${color.yellow};
+  font-weight: bold;
+  white-space: nowrap;
+`;
+
+const TableRow = styled.tr`
+  border-bottom: 0.1rem solid ${color.darkCard};
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const TableCell = styled.td`
+  padding: 0.4rem 1.2rem;
+  color: ${color.light};
+  white-space: nowrap;
+`;
+
+const OrderedList = styled.ol`
+  padding-left: 2.4rem;
+  margin-bottom: 1.2rem;
+`;
+
+const OrderedListItem = styled.li`
+  font-size: 1.4rem;
+  line-height: 2rem;
+  color: ${color.light};
+  margin-bottom: 0.4rem;
+
+  strong {
+    color: ${color.yellow};
+    font-weight: bold;
+  }
+`;
+
+const renderInlineFormatting = (text: string): React.ReactNode => {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    const boldMatch = part.match(/^\*\*(.+)\*\*$/);
+    if (boldMatch?.[1]) {
+      return <strong key={i}>{boldMatch[1]}</strong>;
+    }
+    return part;
+  });
+};
+
+const getChecklistBlocks = (section: Section): ChecklistBlock[] =>
+  section.blocks.filter((b): b is ChecklistBlock => b.type === 'checklist');
 
 // --- Component ---
 
@@ -380,7 +575,7 @@ const createCheckedStore = (gameSlug: string) => {
       };
     },
     getSnapshot: () => snapshot,
-    getServerSnapshot: () => new Set<string>(),
+    getServerSnapshot: () => snapshot,
     toggle: (itemId: string) => {
       const next = new Set(snapshot);
       if (next.has(itemId)) {
@@ -441,9 +636,9 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
     store.reset();
   }, [store]);
 
-  const totalItems = data.sections.reduce((sum, s) => sum + s.items.length, 0);
+  const totalItems = data.sections.reduce((sum, s) => sum + getChecklistBlocks(s).length, 0);
   const totalChecked = data.sections.reduce(
-    (sum, s) => sum + s.items.filter((item) => checked.has(item.id)).length,
+    (sum, s) => sum + getChecklistBlocks(s).filter((item) => checked.has(item.id)).length,
     0,
   );
   const overallPercent = totalItems > 0 ? Math.round((totalChecked / totalItems) * 100) : 0;
@@ -465,35 +660,19 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
         {legendOpen && (
           <LegendContent>
             <LegendItem>
-              <LegendLabel $color={color.orange}>Leveled — best at X</LegendLabel> — This reward
-              scales with your level. Wait until the listed level for the strongest version.
-            </LegendItem>
-            <LegendItem>
-              <LegendLabel $color={color.red}>Missable</LegendLabel> — This item or area is
-              permanently inaccessible after a certain point.
-            </LegendItem>
-            <LegendItem>
-              <LegendLabel $color={color.red}>Quest-locked area</LegendLabel> — You can only access
-              this location during a specific quest.
+              Each item is tagged with a category shown as a coloured label. Check items off as you
+              complete them — progress is saved in your browser.
             </LegendItem>
             <LegendSection>
-              <LegendSectionTitle>Leveled rewards — when to delay</LegendSectionTitle>
-              <LegendRow>
-                Most Daedric artifacts are NOT leveled. The key leveled items are:
-              </LegendRow>
-              <LegendRow>
-                Level 46+: Chillrend, Nightingale Blade, Nightingale Bow, Dragonbane
-              </LegendRow>
-              <LegendRow>Level 40+: Shield of Solitude</LegendRow>
-              <LegendRow>Level 36+: Gauldur Blackblade, Gauldur Blackbow</LegendRow>
-              <LegendRow>Level 32+: Nightingale Armor set</LegendRow>
-            </LegendSection>
-            <LegendSection>
-              <LegendSectionTitle>Quest chain tags</LegendSectionTitle>
-              {Object.entries(tagColors).map(([tag, tagColor]) => (
+              <LegendSectionTitle>Tags in this guide</LegendSectionTitle>
+              {Array.from(
+                new Set(
+                  data.sections.flatMap((s) => getChecklistBlocks(s).map((item) => item.tag)),
+                ),
+              ).map((tag) => (
                 <Tag
                   key={tag}
-                  $color={tagColor}
+                  $color={getTagColor(tag)}
                   style={{ marginRight: '0.4rem', marginBottom: '0.4rem', display: 'inline-block' }}
                 >
                   {tag}
@@ -518,9 +697,11 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
       </OverallProgressWrapper>
 
       {data.sections.map((section, sectionIndex) => {
-        const sectionChecked = section.items.filter((item) => checked.has(item.id)).length;
+        const sectionItems = getChecklistBlocks(section);
+        const sectionChecked = sectionItems.filter((item) => checked.has(item.id)).length;
+        const sectionTotal = sectionItems.length;
         const sectionPercent =
-          section.items.length > 0 ? Math.round((sectionChecked / section.items.length) * 100) : 0;
+          sectionTotal > 0 ? Math.round((sectionChecked / sectionTotal) * 100) : 0;
         const isOpen = !collapsedSections.has(sectionIndex);
 
         return (
@@ -529,7 +710,7 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
               <Chevron $open={isOpen}>▶</Chevron>
               <Typography variant="h3">{section.title}</Typography>
               <SectionProgress>
-                {sectionChecked}/{section.items.length}
+                {sectionChecked}/{sectionTotal}
               </SectionProgress>
               <SectionProgressBar>
                 <SectionProgressFill $percent={sectionPercent} />
@@ -538,13 +719,70 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
 
             {isOpen && (
               <ItemList>
-                {section.items.map((item) => (
-                  <ItemRow key={item.id} $checked={checked.has(item.id)}>
-                    <Checkbox checked={checked.has(item.id)} onChange={() => toggleItem(item.id)} />
-                    <Tag $color={getTagColor(item.tag)}>{item.tag}</Tag>
-                    <ItemText $checked={checked.has(item.id)}>{item.text}</ItemText>
-                  </ItemRow>
-                ))}
+                {section.blocks.map((block, blockIndex) => {
+                  switch (block.type) {
+                    case 'checklist':
+                      return (
+                        <ItemRow key={block.id} $checked={checked.has(block.id)}>
+                          <Checkbox
+                            checked={checked.has(block.id)}
+                            onChange={() => toggleItem(block.id)}
+                          />
+                          <Tag $color={getTagColor(block.tag)}>{block.tag}</Tag>
+                          <ItemText $checked={checked.has(block.id)}>
+                            {renderInlineFormatting(block.text)}
+                          </ItemText>
+                        </ItemRow>
+                      );
+                    case 'subheading':
+                      return (
+                        <SubHeadingWrapper key={`sh-${blockIndex}`}>
+                          <Typography variant="h3">{block.text}</Typography>
+                        </SubHeadingWrapper>
+                      );
+                    case 'text':
+                      return (
+                        <TextBlockWrapper key={`txt-${blockIndex}`}>
+                          {renderInlineFormatting(block.text)}
+                        </TextBlockWrapper>
+                      );
+                    case 'table':
+                      return (
+                        <StyledTable key={`tbl-${blockIndex}`}>
+                          <TableHead>
+                            <tr>
+                              {block.headers.map((h, i) => (
+                                <TableHeaderCell key={i}>{h}</TableHeaderCell>
+                              ))}
+                            </tr>
+                          </TableHead>
+                          <tbody>
+                            {block.rows.map((row, rowIndex) => (
+                              <TableRow key={rowIndex}>
+                                {row.map((cell, cellIndex) => (
+                                  <TableCell key={cellIndex}>
+                                    {renderInlineFormatting(cell)}
+                                  </TableCell>
+                                ))}
+                              </TableRow>
+                            ))}
+                          </tbody>
+                        </StyledTable>
+                      );
+                    case 'ordered-list':
+                      return (
+                        <OrderedList key={`ol-${blockIndex}`}>
+                          {block.items.map((item, i) => (
+                            <OrderedListItem key={i}>
+                              {renderInlineFormatting(item)}
+                            </OrderedListItem>
+                          ))}
+                        </OrderedList>
+                      );
+                    default:
+                      return null;
+                  }
+                })}
               </ItemList>
             )}
           </SectionWrapper>
