@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { color } from '../styles/variables';
 
-const StyledAnchor = styled.a<{ $active: boolean }>`
+const StyledNavLink = styled(Link)<{ $active: boolean }>`
   font-size: 1.6em;
   text-decoration: none;
   color: ${(props) => (props.$active ? color.magenta : color.yellow)};
@@ -44,9 +44,9 @@ export const StyledLink = ({
   $active: boolean;
   children: React.ReactNode;
 }) => (
-  <Link href={href} passHref legacyBehavior>
-    <StyledAnchor $active={$active}>{children}</StyledAnchor>
-  </Link>
+  <StyledNavLink href={href} $active={$active}>
+    {children}
+  </StyledNavLink>
 );
 
 export const NavBar = () => {
