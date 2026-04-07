@@ -20,6 +20,7 @@ Personal website built with **Next.js (Pages Router)**, **React 19**, **TypeScri
 ### Content pattern
 
 Blog posts and project pages are stored as Markdown files in `public/docs/`. Pages use `getStaticProps` to read these files at build time and pass the content string to the `<Markdown>` component for rendering. To add a new post/project page:
+
 1. Create a `.md` file in `public/docs/blog/` or `public/docs/projects/`
 2. Create a corresponding page in `pages/blog/` or `pages/projects/` that reads the file via `getStaticProps`
 

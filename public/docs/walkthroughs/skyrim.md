@@ -184,6 +184,7 @@ A comprehensive checklist for completionist coverage, organized as a linear geog
 ## Civil War — Choose a Side
 
 ### Imperial Legion Path
+
 - [ ] `Civil War` "Joining the Legion" — report to General Tullius in Castle Dour, Solitude
 - [ ] `Civil War` "The Jagged Crown" — recover the crown from Korvanjund
 - [ ] `Civil War` "Message to Whiterun" — deliver the message to Jarl Balgruuf
@@ -198,6 +199,7 @@ A comprehensive checklist for completionist coverage, organized as a linear geog
 - [ ] `Civil War` "Battle for Windhelm" — final battle, defeat Ulfric Stormcloak
 
 ### Stormcloak Path
+
 - [ ] `Civil War` "Joining the Stormcloaks" — report to Ulfric Stormcloak in the Palace of the Kings, Windhelm
 - [ ] `Civil War` "The Jagged Crown" — recover the crown from Korvanjund
 - [ ] `Civil War` "Message to Whiterun" — deliver the axe to Jarl Balgruuf

@@ -1,16 +1,8 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
+import { CardGrid } from '../../components/CardGrid';
+import { ContentCard } from '../../components/ContentCard';
 import { Page } from '../../components/Page';
-import { ProjectCard } from '../../components/ProjectCard';
-
-const WalkthroughsWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1.6rem;
-`;
 
 interface WalkthroughEntry {
   title: string;
@@ -29,11 +21,11 @@ const walkthroughs: WalkthroughEntry[] = [
 
 const Walkthroughs = () => (
   <Page title="Walkthroughs">
-    <WalkthroughsWrapper>
+    <CardGrid>
       {walkthroughs.map((w) => (
-        <ProjectCard key={w.href} {...w} />
+        <ContentCard key={w.href} {...w} />
       ))}
-    </WalkthroughsWrapper>
+    </CardGrid>
   </Page>
 );
 

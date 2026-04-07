@@ -1,16 +1,8 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
+import { CardGrid } from '../../components/CardGrid';
+import { ContentCard } from '../../components/ContentCard';
 import { Page } from '../../components/Page';
-import { ProjectCard } from '../../components/ProjectCard';
-
-const ProjectsWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1.6rem;
-`;
 
 interface ProjectType {
   title: string;
@@ -32,12 +24,12 @@ const projects: ProjectType[] = [
 ];
 
 const Projects = () => (
-  <Page title='Projects'>
-    <ProjectsWrapper>
-      {projects.map(project => (
-        <ProjectCard key={project.href} {...project} />
+  <Page title="Projects">
+    <CardGrid>
+      {projects.map((project) => (
+        <ContentCard key={project.href} {...project} />
       ))}
-    </ProjectsWrapper>
+    </CardGrid>
   </Page>
 );
 

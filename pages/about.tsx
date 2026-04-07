@@ -6,16 +6,15 @@ import { Markdown } from '../components/Markdown';
 import { Page } from '../components/Page';
 
 export async function getStaticProps() {
-  const content = await fs.readFile('public/docs/about.md',{ encoding: 'utf8' });
+  const content = await fs.readFile('public/docs/about.md', { encoding: 'utf8' });
 
   return {
     props: { content },
   };
 }
 
-const About = ({ content }: {content: string}) => {
-
-  return(
+const About = ({ content }: { content: string }) => {
+  return (
     <Page>
       <Markdown content={content} />
     </Page>

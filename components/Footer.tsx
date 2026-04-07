@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FaGamepad, FaGithub, FaTwitch, FaTwitter } from 'react-icons/fa';
+import { FaGamepad, FaGithub } from 'react-icons/fa';
 import styled from 'styled-components';
 
 import { color } from '../styles/variables';
@@ -41,12 +41,6 @@ export const Footer = () => (
     <HiddenLink href="/walkthroughs">
       <FaGamepad />
     </HiddenLink>
-    <LogoLink href="https://twitch.tv/piphop">
-      <FaTwitch />
-    </LogoLink>
-    <LogoLink href="https://twitter.com/ajcumine">
-      <FaTwitter />
-    </LogoLink>
     <LogoLink href="https://github.com/ajcumine">
       <FaGithub />
     </LogoLink>

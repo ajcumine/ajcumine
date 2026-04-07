@@ -1,25 +1,17 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
+import { CardGrid } from '../../components/CardGrid';
+import { ContentCard } from '../../components/ContentCard';
 import { Page } from '../../components/Page';
-import { ProjectCard } from '../../components/ProjectCard';
 
-const BlogWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1.6rem;
-`;
-
-interface BlogsType {
+interface BlogType {
   title: string;
   description: string;
   href: string;
   writtenDate: Date;
 }
 
-const blogCards: BlogsType[] = [
+const blogCards: BlogType[] = [
   // {
   //   title: '',
   //   description: '',
@@ -35,12 +27,12 @@ const blogCards: BlogsType[] = [
 ];
 
 const Blog = () => (
-  <Page title='Blog'>
-    <BlogWrapper>
-      {blogCards.map(blog => (
-        <ProjectCard key={blog.href} {...blog} />
+  <Page title="Blog">
+    <CardGrid>
+      {blogCards.map((blog) => (
+        <ContentCard key={blog.href} {...blog} />
       ))}
-    </BlogWrapper>
+    </CardGrid>
   </Page>
 );
 

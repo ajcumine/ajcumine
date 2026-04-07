@@ -6,28 +6,39 @@ import styled from 'styled-components';
 
 import { color } from '../styles/variables';
 
+import { TitleDecorator } from './TitleDecorator';
 import { Typography } from './Typography';
 
 const CardLink = styled(Link)`
   cursor: pointer;
   border-radius: 0.8rem;
-  width: 32rem;
-  height: 40rem;
+  min-height: 20rem;
   padding: 1.6rem;
   background-color: ${color.darkCard};
+  color: ${color.cardText};
+  border: 0.1rem solid rgba(255, 255, 255, 0.05);
   box-shadow:
     0 1rem 2rem rgba(0, 0, 0, 0.19),
     0 0.6rem 0.6rem rgba(0, 0, 0, 0.23);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  color: inherit;
 
   &:hover {
+    transform: translateY(-0.2rem);
+    background-color: ${color.cardHover};
     box-shadow:
       0 1.4rem 2.8rem rgba(0, 0, 0, 0.25),
       0 1rem 1rem rgba(0, 0, 0, 0.22);
+  }
+
+  &:focus-visible {
+    outline: 0.2rem solid ${color.yellow};
+    outline-offset: 0.2rem;
   }
 `;
 
@@ -35,35 +46,30 @@ const TitleWrapper = styled.div`
   margin-bottom: 1.4rem;
 `;
 
-const TitleDecorator = styled.div`
-  width: 3.2rem;
-  height: 0.2rem;
-  background-color: ${color.yellow};
-  border-radius: 0.1rem;
+const DescriptionWrapper = styled.div`
+  flex-grow: 1;
 `;
-
-const DescriptionWrapper = styled.div``;
 
 const DateWrapper = styled.div`
   margin-bottom: 1.6rem;
 `;
 
-interface ProjectCardProps {
+interface ContentCardProps {
   title: string;
   description: string;
   href: string;
   writtenDate?: Date;
 }
 
-export const ProjectCard = ({ title, description, href, writtenDate }: ProjectCardProps) => (
+export const ContentCard = ({ title, description, href, writtenDate }: ContentCardProps) => (
   <CardLink href={href}>
     <TitleWrapper>
       <Typography variant="h3">{title}</Typography>
-      <TitleDecorator />
+      <TitleDecorator width="3.2rem" />
     </TitleWrapper>
     {writtenDate && (
       <DateWrapper>
-        <Typography variant="body">written: {format(writtenDate, 'do MMM yyyy')}</Typography>
+        <Typography variant="secondary">{format(writtenDate, 'do MMM yyyy')}</Typography>
       </DateWrapper>
     )}
     <DescriptionWrapper>
