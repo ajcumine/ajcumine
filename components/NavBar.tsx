@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { color } from '../styles/variables';
 
-export const StyledLink = styled(Link)<{ $active: boolean }>`
+const StyledNavLink = styled(Link)<{ $active: boolean }>`
   font-size: 1.6em;
   text-decoration: none;
   color: ${(props) => (props.$active ? color.magenta : color.yellow)};
@@ -34,6 +34,20 @@ const ListItem = styled.li`
   display: inline-block;
   margin-right: 1.2rem;
 `;
+
+export const StyledLink = ({
+  href,
+  $active,
+  children,
+}: {
+  href: string;
+  $active: boolean;
+  children: React.ReactNode;
+}) => (
+  <StyledNavLink href={href} $active={$active}>
+    {children}
+  </StyledNavLink>
+);
 
 export const NavBar = () => {
   const router = useRouter();
