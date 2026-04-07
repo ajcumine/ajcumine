@@ -8,9 +8,9 @@ const BulletListItemWrapper = styled.li`
   margin-bottom: 0.8rem;
 `;
 
-export const BulletListItem = ({ children }: {children: React.ReactNode;}) => (
+export const BulletListItem = ({ children }: { children: React.ReactNode }) => (
   <BulletListItemWrapper>
-    <Typography variant='body'>- {children}</Typography>
+    <Typography variant="body">- {children}</Typography>
   </BulletListItemWrapper>
 );
 

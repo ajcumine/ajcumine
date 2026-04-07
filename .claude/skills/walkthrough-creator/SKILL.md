@@ -1,6 +1,6 @@
 ---
 name: walkthrough-creator
-description: "Create completionist game walkthrough checklists for the personal website. Use this skill whenever the user asks to: add a new game walkthrough, create a checklist guide for a game, add a game to the walkthroughs section, write a completionist guide, or mentions wanting to track progress through a game. Also use when the user wants to update or improve an existing walkthrough. This skill handles the full pipeline: researching accurate quest data, writing the markdown, and wiring up the page."
+description: 'Create completionist game walkthrough checklists for the personal website. Use this skill whenever the user asks to: add a new game walkthrough, create a checklist guide for a game, add a game to the walkthroughs section, write a completionist guide, or mentions wanting to track progress through a game. Also use when the user wants to update or improve an existing walkthrough. This skill handles the full pipeline: researching accurate quest data, writing the markdown, and wiring up the page.'
 ---
 
 # Walkthrough Creator
@@ -48,12 +48,12 @@ A one-line description of what this walkthrough covers.
 
 Tags are rendered as colored badges. Use ONLY these exact tag strings (case-sensitive):
 
-| Tag | Use for | Colour |
-|-----|---------|--------|
-| `Main` | Main story/critical path quests | Yellow |
-| `Side` | Notable side quests | Grey |
-| `Misc` | Minor objectives, miscellaneous tasks | Grey |
-| `Collectible` | Items, achievements, collectibles, upgrades | Cyan |
+| Tag           | Use for                                     | Colour |
+| ------------- | ------------------------------------------- | ------ |
+| `Main`        | Main story/critical path quests             | Yellow |
+| `Side`        | Notable side quests                         | Grey   |
+| `Misc`        | Minor objectives, miscellaneous tasks       | Grey   |
+| `Collectible` | Items, achievements, collectibles, upgrades | Cyan   |
 
 For game-specific quest chains (guild factions, DLC, etc.), create additional tags that make sense for that game. Keep tags at the questline-category level (e.g., `Companions`, `Thieves`, `DLC-DG`).
 
@@ -66,7 +66,7 @@ When a side questline spans multiple sections, use compound tags with `{Category
 - `Companion - Shadowheart` — Shadowheart's personal quest steps
 - `Main - Age of Stars` — main quest steps specific to one ending path
 
-The component's `getTagColor` function automatically extracts the prefix before ` - ` and uses the parent category's colour. So `Side - Ranni` renders in the `Side` colour, `Main - Age of Stars` renders in `Main`'s yellow, etc. No code changes needed for new compound tags.
+The component's `getTagColor` function automatically extracts the prefix before `-` and uses the parent category's colour. So `Side - Ranni` renders in the `Side` colour, `Main - Age of Stars` renders in `Main`'s yellow, etc. No code changes needed for new compound tags.
 
 When creating a new walkthrough, list all the tags you've used and their intended meanings so the user can add colour mappings to the `tagColors` object in the component for any new base categories.
 
@@ -80,6 +80,7 @@ Inline annotations go at the end of a checklist item's description text, in pare
 - **Level requirements**: `(requires level X)` — when a quest has a minimum level to start
 
 Example:
+
 ```
 - [ ] `Main` Complete "Alduin's Wall" — travel to Sky Haven Temple (Leveled — best at 46: Dragonbane katana found in the temple)
 - [ ] `Collectible` Nahkriin mask — Skuldafn, guarding the portal (Missable — MUST loot before entering portal to Sovngarde)
@@ -90,12 +91,14 @@ Example:
 A single in-game action should be a single checklist item. If completing a quest gives a reward, the quest step should mention the reward inline — do NOT also list the reward as a separate `Collectible` item. For example:
 
 WRONG (two items for one action):
+
 ```
 - [ ] `Main` Complete "The Way of the Voice" — learn Unrelenting Force from the Greybeards
 - [ ] `Collectible` Paraglider — obtained from the Old Man
 ```
 
 RIGHT (one item covering both):
+
 ```
 - [ ] `Main` Complete "The Isolated Plateau" — speak to the Old Man and receive the Paraglider
 ```
@@ -197,6 +200,7 @@ For each checklist item:
 After creating the markdown file at `public/docs/walkthroughs/{game-slug}.md`:
 
 1. Add the game to the `walkthroughs` array in `pages/walkthroughs/index.tsx`:
+
 ```typescript
 {
   title: 'Game Title',
