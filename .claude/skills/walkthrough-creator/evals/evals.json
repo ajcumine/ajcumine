@@ -1,0 +1,23 @@
+{
+  "skill_name": "walkthrough-creator",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Add a completionist walkthrough for Elden Ring to the walkthroughs section. Cover the main story bosses, all major side dungeons and their unique rewards, NPC questlines, remembrance weapons, legendary armaments/talismans/ashen remains/sorceries/incantations, and Great Runes. Organize it as a geographic route through the game's regions.",
+      "expected_output": "A markdown file at public/docs/walkthroughs/elden-ring.md following the exact parser format (# title, plain text description, ## sections, - [ ] `Tag` items). Should use geographic sections (Limgrave, Liurnia, Caelid, etc.), accurate boss and quest names verified via web search, appropriate tags (Main, Side, Collectible, plus game-specific ones like NPC or Legacy Dungeon), missable annotations for NPC questlines with points of no return. The walkthroughs index page should be updated with the new entry.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "Create a completionist walkthrough for Baldur's Gate 3. I want it to cover all three acts, companion quests, major side content, and important choices that lock out content. Make sure missable items and point-of-no-return warnings are included.",
+      "expected_output": "A markdown file at public/docs/walkthroughs/baldurs-gate-3.md in the correct parser format. Should be organized by act and location (Act 1 — Ravaged Beach, Emerald Grove, Underdark, etc.), with accurate quest names verified via wiki sources, tags for Main, Companion, Side, Collectible (plus any game-specific tags), missable annotations for companion recruitment windows and act transitions, and the index page updated.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Add a Breath of the Wild completionist walkthrough to the site. Cover main quests, all divine beasts, shrine quests, side quests, and key collectibles like memories and armor sets. I don't need every Korok seed but I want the major ones near important areas.",
+      "expected_output": "A markdown file at public/docs/walkthroughs/breath-of-the-wild.md in the correct parser format. Should be organized geographically by region (Great Plateau, Hateno/Dueling Peaks, Zora's Domain, etc.), with verified quest and shrine names, appropriate tags (Main, Shrine, Side, Collectible, Divine Beast or similar), and the index page updated. Should note that the open-world structure means the route is a suggestion rather than a strict path.",
+      "files": []
+    }
+  ]
+}
