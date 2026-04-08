@@ -13,6 +13,8 @@ const FooterWrapper = styled.footer`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  ${({ theme }) => theme.meta.footerCss || ''}
 `;
 
 const LogoLink = styled.a`

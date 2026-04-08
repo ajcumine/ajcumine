@@ -27,6 +27,8 @@ const StyledNavLink = styled(Link)<{ $active: boolean }>`
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
+
+  ${({ theme }) => theme.meta.navLinkCss || ''}
 `;
 
 const NavBarWrapper = styled.nav`
@@ -39,6 +41,8 @@ const NavBarWrapper = styled.nav`
   display: flex;
   align-items: center;
   margin-bottom: 2.4rem;
+
+  ${({ theme }) => theme.meta.navCss || ''}
 `;
 
 const ListItem = styled.li`

@@ -10,6 +10,7 @@ const Decorator = styled.div<TitleDecoratorProps>`
   width: ${({ width }) => width || '4rem'};
   height: 0.4rem;
   background-color: ${({ theme }) => theme.meta.decoratorColor};
+  ${({ theme }) => theme.meta.decoratorCss || ''}
 `;
 
 export const TitleDecorator = ({ width }: TitleDecoratorProps) => <Decorator width={width} />;

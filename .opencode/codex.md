@@ -49,12 +49,35 @@ public/docs/     # Markdown content (blog posts, projects, walkthroughs)
 - Theme persisted to localStorage key `site-theme`; validated against known slugs on read
 - SSR defaults to Solarized Dark; client hydrates stored theme in useEffect (brief FODT accepted)
 - ThemeSwitcher dropdown in NavBar with full keyboard navigation and ARIA listbox pattern
+- `ThemeGlobalStyles` component (`createGlobalStyle`) injects per-theme global CSS (overlays, cursors, keyframes, selection colors)
+
+### Per-Component CSS Injection
+
+Themes can inject arbitrary CSS into components via optional `ThemeMeta` string tokens:
+
+| Token           | Target Component  | Purpose                                                   |
+| --------------- | ----------------- | --------------------------------------------------------- |
+| `backgroundCss` | Page Wrapper      | Page background patterns (gradients, textures)            |
+| `navCss`        | NavBarWrapper     | Nav structural changes (borders, transforms, layout)      |
+| `navLinkCss`    | StyledNavLink     | Link styling (pseudo-elements, hover overrides)           |
+| `cardCss`       | CardLink          | Card structure (clip-path, borders, pseudo-elements)      |
+| `cardHoverCss`  | CardLink:hover    | Hover effects (glitch, press, glow)                       |
+| `footerCss`     | FooterWrapper     | Footer structure (pseudo-content, borders)                |
+| `headingCss`    | H1/H2/H3          | Heading effects (text-shadow, weight)                     |
+| `bodyCss`       | Body text         | Body text overrides                                       |
+| `decoratorCss`  | TitleDecorator    | Decorator replacement (bars, slashes, cursors, gradients) |
+| `globalCss`     | createGlobalStyle | Overlays, cursors, selection, keyframes                   |
+
+Additional typography tokens: `headingTransform`, `headingLetterSpacing`, `headingFontStyle`
 
 ### Adding a New Theme
 
 1. Create `styles/themes/my-theme.ts` implementing the `Theme` interface
 2. Import and register in `styles/themes/index.ts`
 3. If the theme needs a non-system Google Font, add the import to `styles/globals.css`
+4. Populate CSS injection tokens for visual personality (see existing themes for examples)
+5. If adding animations, define `@keyframes` in `globalCss` and reference in component tokens
+6. Ensure `body::after` overlays include `pointer-events: none` and `z-index: 9999`
 
 ## Conventions
 
@@ -72,3 +95,6 @@ public/docs/     # Markdown content (blog posts, projects, walkthroughs)
 | 2026-04-08 | Accept brief flash-of-default-theme on SSR                                    | Simpler than blocking script in \_document.tsx; flash is sub-100ms; upgrade path documented                                             |
 | 2026-04-08 | Theme tokens include meta properties (fontFamily, borderStyle, cardBoxShadow) | Enables themes to feel genuinely different beyond color swaps (Win98 beveled borders, GeoCities dashed borders, Bauhaus offset shadows) |
 | 2026-04-08 | All Prism code blocks use a11yDark                                            | Single code theme works acceptably across all 7 themes; registry exists for future per-theme code themes                                |
+| 2026-04-08 | Light themes (Bauhaus, Win98) use oneLight/vs Prism themes                    | a11yDark renders light tokens invisible on light code backgrounds                                                                       |
+| 2026-04-08 | Per-component CSS injection via raw string tokens                             | Most flexible approach for theme-specific structural changes without needing a token for every CSS property                             |
+| 2026-04-08 | ThemeGlobalStyles for global CSS (overlays, cursors, keyframes)               | createGlobalStyle with theme access; complements globals.css; prefers-reduced-motion guard included                                     |

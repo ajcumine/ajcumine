@@ -24,12 +24,16 @@ const CardLink = styled(Link)`
   flex-direction: column;
   text-decoration: none;
 
+  ${({ theme }) => theme.meta.cardCss || ''}
+
   &:hover {
     transform: translateY(-0.2rem);
     background-color: ${({ theme }) => theme.background.cardHover};
     box-shadow:
       0 1.4rem 2.8rem rgba(0, 0, 0, 0.25),
       0 1rem 1rem rgba(0, 0, 0, 0.22);
+
+    ${({ theme }) => theme.meta.cardHoverCss || ''}
   }
 
   &:focus-visible {

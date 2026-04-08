@@ -9,19 +9,35 @@ interface TypographyProps {
 
 const H1 = styled.h1`
   font-size: 4.4rem;
+  text-transform: ${({ theme }) => theme.meta.headingTransform || 'none'};
+  letter-spacing: ${({ theme }) => theme.meta.headingLetterSpacing || 'normal'};
+  font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
+  font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
+  ${({ theme }) => theme.meta.headingCss || ''}
 `;
 
 const H2 = styled.h2`
   font-size: 2.8rem;
+  text-transform: ${({ theme }) => theme.meta.headingTransform || 'none'};
+  letter-spacing: ${({ theme }) => theme.meta.headingLetterSpacing || 'normal'};
+  font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
+  font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
+  ${({ theme }) => theme.meta.headingCss || ''}
 `;
 
 const H3 = styled.h3`
   font-size: 2.4rem;
+  text-transform: ${({ theme }) => theme.meta.headingTransform || 'none'};
+  letter-spacing: ${({ theme }) => theme.meta.headingLetterSpacing || 'normal'};
+  font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
+  font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
+  ${({ theme }) => theme.meta.headingCss || ''}
 `;
 
 const Body = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
+  ${({ theme }) => theme.meta.bodyCss || ''}
 `;
 
 const Secondary = styled.div`
