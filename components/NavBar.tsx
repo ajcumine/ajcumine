@@ -4,22 +4,23 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-import { color } from '../styles/variables';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 const StyledNavLink = styled(Link)<{ $active: boolean }>`
   font-size: 1.6em;
   text-decoration: none;
-  color: ${(props) => (props.$active ? color.magenta : color.yellow)};
+  color: ${({ $active, theme }) => ($active ? theme.ui.navLinkActive : theme.ui.navLinkInactive)};
   border-bottom: 0.2rem solid;
-  border-color: ${(props) => (props.$active ? color.magenta : color.dark)};
+  border-color: ${({ $active, theme }) => ($active ? theme.ui.navLinkActive : theme.ui.navBg)};
   border-radius: 0.2rem;
 
   &:hover {
-    border-color: ${(props) => (props.$active ? color.magenta : color.yellow)};
+    border-color: ${({ $active, theme }) =>
+      $active ? theme.ui.navLinkActive : theme.ui.navLinkHoverBorder};
   }
 
   &:focus-visible {
-    outline: 0.2rem solid ${color.blue};
+    outline: 0.2rem solid ${({ theme }) => theme.border.focus};
     outline-offset: 0.2rem;
   }
 
@@ -29,12 +30,12 @@ const StyledNavLink = styled(Link)<{ $active: boolean }>`
 `;
 
 const NavBarWrapper = styled.nav`
-  background-color: ${color.dark};
-  color: ${color.darkText};
+  background-color: ${({ theme }) => theme.ui.navBg};
+  color: ${({ theme }) => theme.ui.navText};
   flex-shrink: 0;
   height: 4.8rem;
   padding: 1.6rem;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   align-items: center;
   margin-bottom: 2.4rem;
@@ -79,6 +80,7 @@ export const NavBar = () => {
           </ListItem>
         ))}
       </ul>
+      <ThemeSwitcher />
     </NavBarWrapper>
   );
 };

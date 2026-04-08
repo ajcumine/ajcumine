@@ -1,0 +1,63 @@
+import { Theme } from '../theme.types';
+
+export const synthwave: Theme = {
+  name: 'Synthwave',
+  slug: 'synthwave',
+  background: {
+    page: '#1a1a2e',
+    card: '#16213e',
+    cardHover: '#1a2744',
+    code: '#0f0f23',
+  },
+  text: {
+    primary: '#e0e0e0',
+    secondary: '#b0b0c0',
+    heading: '#ff6ac1',
+    link: '#00fff5',
+    linkHover: '#ff6ac1',
+    inverse: '#1a1a2e',
+  },
+  accent: {
+    primary: '#ff6ac1',
+    secondary: '#00fff5',
+    highlight: '#9b59b6',
+    danger: '#ff3860',
+    success: '#00ff87',
+    decorative: '#ff6ac1',
+  },
+  border: {
+    default: 'rgba(255, 106, 193, 0.2)',
+    focus: '#00fff5',
+    decorative: '#ff6ac1',
+    radius: '0.4rem',
+  },
+  ui: {
+    navBg: '#0f0f23',
+    navText: '#e0e0e0',
+    navLinkActive: '#00fff5',
+    navLinkInactive: '#ff6ac1',
+    navLinkHoverBorder: '#ff6ac1',
+    footerBg: '#0f0f23',
+    footerText: '#e0e0e0',
+    footerLink: '#ff6ac1',
+    footerLinkHidden: '#0f0f23',
+  },
+  palette: {
+    yellow: '#f9e547',
+    orange: '#ff9f43',
+    red: '#ff3860',
+    magenta: '#ff6ac1',
+    violet: '#9b59b6',
+    blue: '#4a90d9',
+    cyan: '#00fff5',
+    green: '#00ff87',
+  },
+  meta: {
+    fontFamily: "'Fira Code'",
+    borderStyle: 'solid',
+    cardBorderStyle: '0.1rem solid rgba(255, 106, 193, 0.3)',
+    cardBoxShadow: '0 0 1.5rem rgba(255, 106, 193, 0.15), 0 0 0.5rem rgba(0, 255, 245, 0.1)',
+    codeTheme: 'a11yDark',
+    decoratorColor: '#ff6ac1',
+  },
+};

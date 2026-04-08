@@ -4,22 +4,18 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { color } from '../styles/variables';
-
 import { TitleDecorator } from './TitleDecorator';
 import { Typography } from './Typography';
 
 const CardLink = styled(Link)`
   cursor: pointer;
-  border-radius: 0.8rem;
+  border-radius: ${({ theme }) => theme.border.radius};
   min-height: 20rem;
   padding: 1.6rem;
-  background-color: ${color.darkCard};
-  color: ${color.cardText};
-  border: 0.1rem solid rgba(255, 255, 255, 0.05);
-  box-shadow:
-    0 1rem 2rem rgba(0, 0, 0, 0.19),
-    0 0.6rem 0.6rem rgba(0, 0, 0, 0.23);
+  background-color: ${({ theme }) => theme.background.card};
+  color: ${({ theme }) => theme.text.secondary};
+  border: ${({ theme }) => theme.meta.cardBorderStyle};
+  box-shadow: ${({ theme }) => theme.meta.cardBoxShadow};
   transition:
     transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
     background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
@@ -30,14 +26,14 @@ const CardLink = styled(Link)`
 
   &:hover {
     transform: translateY(-0.2rem);
-    background-color: ${color.cardHover};
+    background-color: ${({ theme }) => theme.background.cardHover};
     box-shadow:
       0 1.4rem 2.8rem rgba(0, 0, 0, 0.25),
       0 1rem 1rem rgba(0, 0, 0, 0.22);
   }
 
   &:focus-visible {
-    outline: 0.2rem solid ${color.blue};
+    outline: 0.2rem solid ${({ theme }) => theme.border.focus};
     outline-offset: 0.2rem;
   }
 

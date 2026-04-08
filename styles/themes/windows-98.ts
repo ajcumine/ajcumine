@@ -1,0 +1,63 @@
+import { Theme } from '../theme.types';
+
+export const windows98: Theme = {
+  name: 'Windows 98',
+  slug: 'windows-98',
+  background: {
+    page: '#008080',
+    card: '#c0c0c0',
+    cardHover: '#d4d4d4',
+    code: '#ffffff',
+  },
+  text: {
+    primary: '#000000',
+    secondary: '#404040',
+    heading: '#000000',
+    link: '#0000ff',
+    linkHover: '#0000cc',
+    inverse: '#ffffff',
+  },
+  accent: {
+    primary: '#000080',
+    secondary: '#ffffff',
+    highlight: '#000080',
+    danger: '#ff0000',
+    success: '#008000',
+    decorative: '#000080',
+  },
+  border: {
+    default: '#808080',
+    focus: '#000000',
+    decorative: '#000080',
+    radius: '0',
+  },
+  ui: {
+    navBg: '#000080',
+    navText: '#ffffff',
+    navLinkActive: '#ffffff',
+    navLinkInactive: '#c0c0c0',
+    navLinkHoverBorder: '#ffffff',
+    footerBg: '#c0c0c0',
+    footerText: '#000000',
+    footerLink: '#000080',
+    footerLinkHidden: '#c0c0c0',
+  },
+  palette: {
+    yellow: '#ffff00',
+    orange: '#ff8c00',
+    red: '#ff0000',
+    magenta: '#ff00ff',
+    violet: '#800080',
+    blue: '#0000ff',
+    cyan: '#00ffff',
+    green: '#008000',
+  },
+  meta: {
+    fontFamily: "'Tahoma', 'MS Sans Serif', 'Arial', sans-serif",
+    borderStyle: 'outset',
+    cardBorderStyle: '0.2rem outset #ffffff',
+    cardBoxShadow: 'none',
+    codeTheme: 'vs',
+    decoratorColor: '#000080',
+  },
+};

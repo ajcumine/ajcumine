@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { color, size } from '../styles/variables';
+import { size } from '../styles/variables';
 
 import { Footer } from './Footer';
 import { NavBar } from './NavBar';
@@ -10,12 +10,19 @@ import { TitleDecorator } from './TitleDecorator';
 import { Typography } from './Typography';
 
 const Wrapper = styled.div`
-  background-color: ${color.dark};
-  color: ${color.darkText};
+  background-color: ${({ theme }) => theme.background.page};
+  color: ${({ theme }) => theme.text.primary};
   min-height: 100%;
-  font-family: 'Fira Code';
+  font-family: ${({ theme }) => theme.meta.fontFamily};
   display: flex;
   flex-direction: column;
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
 const ContentWrapper = styled.div`

@@ -1,0 +1,63 @@
+import { Theme } from '../theme.types';
+
+export const cyberpunk: Theme = {
+  name: 'Cyberpunk',
+  slug: 'cyberpunk',
+  background: {
+    page: '#0d0d0d',
+    card: '#1a1a1a',
+    cardHover: '#222222',
+    code: '#0a0a0a',
+  },
+  text: {
+    primary: '#f5f500',
+    secondary: '#b0b000',
+    heading: '#00ff41',
+    link: '#00ff41',
+    linkHover: '#f5f500',
+    inverse: '#0d0d0d',
+  },
+  accent: {
+    primary: '#00ff41',
+    secondary: '#ff003c',
+    highlight: '#f5f500',
+    danger: '#ff003c',
+    success: '#00ff41',
+    decorative: '#00ff41',
+  },
+  border: {
+    default: 'rgba(0, 255, 65, 0.2)',
+    focus: '#f5f500',
+    decorative: '#00ff41',
+    radius: '0',
+  },
+  ui: {
+    navBg: '#0a0a0a',
+    navText: '#f5f500',
+    navLinkActive: '#00ff41',
+    navLinkInactive: '#f5f500',
+    navLinkHoverBorder: '#00ff41',
+    footerBg: '#0a0a0a',
+    footerText: '#f5f500',
+    footerLink: '#00ff41',
+    footerLinkHidden: '#0a0a0a',
+  },
+  palette: {
+    yellow: '#f5f500',
+    orange: '#ff8c00',
+    red: '#ff003c',
+    magenta: '#ff00ff',
+    violet: '#9d00ff',
+    blue: '#00b4d8',
+    cyan: '#00ffff',
+    green: '#00ff41',
+  },
+  meta: {
+    fontFamily: "'Fira Code'",
+    borderStyle: 'solid',
+    cardBorderStyle: '0.1rem solid rgba(0, 255, 65, 0.3)',
+    cardBoxShadow: '0 0 1rem rgba(0, 255, 65, 0.1)',
+    codeTheme: 'a11yDark',
+    decoratorColor: '#00ff41',
+  },
+};

@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import ReactMarkdown, { type Components } from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
-import { color } from '../styles/variables';
+import { codeThemes } from '../styles/codeThemes';
 
 import { BulletList, BulletListItem } from './BulletList';
 import { ProseContainer } from './ProseContainer';
@@ -17,7 +16,7 @@ const TitleWrapper = styled.div`
 const TitleDecorator = styled.div`
   width: 4rem;
   height: 0.2rem;
-  background-color: ${color.yellow};
+  background-color: ${({ theme }) => theme.meta.decoratorColor};
   border-radius: 0.1rem;
 `;
 
@@ -62,63 +61,72 @@ const HorizontalRule = styled.hr`
   margin-bottom: 1.6rem;
   border: 0.1rem solid;
   border-radius: 0.1rem;
-  border-color: ${color.cyan};
+  border-color: ${({ theme }) => theme.accent.highlight};
 `;
 
 // In react-markdown v9, the `inline` prop is gone. Distinguish block vs inline
 // code by the presence of a `language-*` className (block fences get one from
 // remark; inline backticks do not).
-const componentMap: Components = {
-  h1: ({ children }) => <H1>{children}</H1>,
-  h2: ({ children }) => <H2>{children}</H2>,
-  h3: ({ children }) => <H3>{children}</H3>,
-  p: ({ children }) => <P>{children}</P>,
-  li: ({ children }) => <BulletListItem>{children}</BulletListItem>,
-  ul: ({ children }) => <BulletList>{children}</BulletList>,
-  a: ({ children, href }) => <AnchorLink href={href}>{children}</AnchorLink>,
-  hr: () => <HorizontalRule />,
-  code: ({ className, children }) => {
-    const match = /language-(\w+)/.exec(className || '');
-    const value = String(children).replace(/\n$/, '');
-    if (match) {
-      return (
-        <SyntaxHighlighter
-          PreTag="div"
-          customStyle={{
-            backgroundColor: color.darkCard,
-            fontSize: '1.2rem',
-            marginBottom: '1.6rem',
-          }}
-          language={match[1]}
-          style={a11yDark as never}
-          useInlineStyles={true}
-        >
-          {value}
-        </SyntaxHighlighter>
-      );
-    }
-    return (
-      <SyntaxHighlighter
-        PreTag="span"
-        customStyle={{
-          backgroundColor: color.darkCard,
-          fontSize: '1.2rem',
-          display: 'inline-block',
-          padding: '0 0.4rem',
-          borderRadius: '0.4rem',
-        }}
-        language="javascript"
-        style={a11yDark as never}
-        useInlineStyles={false}
-      >
-        {value}
-      </SyntaxHighlighter>
-    );
-  },
-};
 
-export const Markdown = ({ content }: { content: string }) => (
-  <ProseContainer>
-    <ReactMarkdown components={componentMap}>{content}</ReactMarkdown>
-  </ProseContainer>
-);
+export const Markdown = ({ content }: { content: string }) => {
+  const theme = useTheme();
+
+  const componentMap: Components = useMemo(
+    () => ({
+      h1: ({ children }) => <H1>{children}</H1>,
+      h2: ({ children }) => <H2>{children}</H2>,
+      h3: ({ children }) => <H3>{children}</H3>,
+      p: ({ children }) => <P>{children}</P>,
+      li: ({ children }) => <BulletListItem>{children}</BulletListItem>,
+      ul: ({ children }) => <BulletList>{children}</BulletList>,
+      a: ({ children, href }) => <AnchorLink href={href}>{children}</AnchorLink>,
+      hr: () => <HorizontalRule />,
+      code: ({ className, children }) => {
+        const match = /language-(\w+)/.exec(className || '');
+        const value = String(children).replace(/\n$/, '');
+        const prismStyle = codeThemes[theme.meta.codeTheme] ?? codeThemes['a11yDark'];
+        if (match) {
+          return (
+            <SyntaxHighlighter
+              PreTag="div"
+              customStyle={{
+                backgroundColor: theme.background.code,
+                fontSize: '1.2rem',
+                marginBottom: '1.6rem',
+              }}
+              language={match[1]}
+              style={prismStyle as never}
+              useInlineStyles={true}
+            >
+              {value}
+            </SyntaxHighlighter>
+          );
+        }
+        return (
+          <SyntaxHighlighter
+            PreTag="span"
+            customStyle={{
+              backgroundColor: theme.background.code,
+              fontSize: '1.2rem',
+              display: 'inline-block',
+              padding: '0 0.4rem',
+              borderRadius: '0.4rem',
+            }}
+            language="javascript"
+            style={prismStyle as never}
+            useInlineStyles={false}
+          >
+            {value}
+          </SyntaxHighlighter>
+        );
+      },
+    }),
+    [theme],
+  );
+
+  return (
+    <ProseContainer>
+      <ReactMarkdown components={componentMap}>{content}</ReactMarkdown>
+    </ProseContainer>
+  );
+};

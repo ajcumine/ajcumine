@@ -2,8 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { color } from '../styles/variables';
-
 interface TypographyProps {
   variant: 'h1' | 'h2' | 'h3' | 'body' | 'secondary';
   children: React.ReactNode;
@@ -29,7 +27,7 @@ const Body = styled.div`
 const Secondary = styled.div`
   font-size: 1.4rem;
   line-height: 2rem;
-  color: ${color.secondaryText};
+  color: ${({ theme }) => theme.text.secondary};
 `;
 
 export const Typography = ({ variant, children }: TypographyProps) => {
@@ -51,7 +49,7 @@ export const Typography = ({ variant, children }: TypographyProps) => {
 };
 
 export const AnchorLink = styled.a`
-  color: ${color.yellow};
+  color: ${({ theme }) => theme.text.link};
   text-decoration: none;
 
   &:hover {

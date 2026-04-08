@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo, useSyncExternalStore } from 'react';
 
-import styled from 'styled-components';
-
-import { color } from '../styles/variables';
+import styled, { useTheme } from 'styled-components';
 
 import { Typography } from './Typography';
 
@@ -49,54 +47,21 @@ interface WalkthroughData {
   sections: Section[];
 }
 
-// --- Tag color mapping (Solarized palette) ---
+// --- Tag color theme type ---
 
-const tagColors: Record<string, string> = {
-  Main: color.yellow,
-  Companions: color.orange,
-  Thieves: color.violet,
-  'Dark Brotherhood': color.red,
-  College: color.blue,
-  'Civil War': color.cyan,
-  Daedric: color.magenta,
-  'DLC-DG': color.green,
-  'DLC-DB': color.green,
-  Bards: color.violet,
-  Side: color.darkText,
-  Misc: color.darkText,
-  Collectible: color.cyan,
-  // FM24 Chelsea tags
-  Chelsea: color.blue,
-  Global: color.violet,
-  Immediate: color.green,
-  Future: color.cyan,
-  Sell: color.red,
-  Scout: color.darkText,
-  Hijack: color.orange,
-  Actual: color.magenta,
-  Keep: color.yellow,
-  Develop: color.green,
-};
-
-const paletteColors = [
-  color.yellow,
-  color.orange,
-  color.red,
-  color.magenta,
-  color.violet,
-  color.blue,
-  color.cyan,
-  color.green,
-];
-
-const getTagColor = (tag: string): string => {
-  if (tagColors[tag]) return tagColors[tag];
-  const prefix = tag.split(' - ')[0];
-  if (prefix && tagColors[prefix]) return tagColors[prefix];
-  let hash = 0;
-  for (const ch of tag) hash = (hash * 31 + ch.charCodeAt(0)) | 0;
-  return paletteColors[Math.abs(hash) % paletteColors.length] ?? color.darkText;
-};
+interface TagColorTheme {
+  palette: {
+    yellow: string;
+    orange: string;
+    red: string;
+    magenta: string;
+    violet: string;
+    blue: string;
+    cyan: string;
+    green: string;
+  };
+  text: { primary: string };
+}
 
 // --- Markdown parser ---
 
@@ -256,20 +221,20 @@ const Wrapper = styled.div`
 const DescriptionText = styled.div`
   font-size: 1.4rem;
   line-height: 2rem;
-  color: ${color.darkText};
+  color: ${({ theme }) => theme.text.primary};
   margin-bottom: 2.4rem;
 `;
 
 const OverallProgressWrapper = styled.div`
   margin-bottom: 3.2rem;
   padding: 1.6rem;
-  background-color: ${color.darkCard};
+  background-color: ${({ theme }) => theme.background.card};
   border-radius: 0.8rem;
 `;
 
 const ProgressLabel = styled.div`
   font-size: 1.4rem;
-  color: ${color.light};
+  color: ${({ theme }) => theme.text.primary};
   margin-bottom: 0.8rem;
   display: flex;
   justify-content: space-between;
@@ -278,7 +243,7 @@ const ProgressLabel = styled.div`
 const ProgressBarOuter = styled.div`
   width: 100%;
   height: 0.8rem;
-  background-color: ${color.dark};
+  background-color: ${({ theme }) => theme.background.page};
   border-radius: 0.4rem;
   overflow: hidden;
 `;
@@ -286,17 +251,17 @@ const ProgressBarOuter = styled.div`
 const ProgressBarInner = styled.div<{ $percent: number }>`
   height: 100%;
   width: ${(props) => props.$percent}%;
-  background-color: ${color.green};
+  background-color: ${({ theme }) => theme.accent.success};
   border-radius: 0.4rem;
   transition: width 0.3s ease;
 `;
 
 const ResetButton = styled.button`
-  font-family: 'Fira Code';
+  font-family: ${({ theme }) => theme.meta.fontFamily};
   font-size: 1.2rem;
-  color: ${color.red};
+  color: ${({ theme }) => theme.accent.danger};
   background: none;
-  border: 0.1rem solid ${color.red};
+  border: 0.1rem solid ${({ theme }) => theme.accent.danger};
   border-radius: 0.4rem;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
@@ -304,12 +269,12 @@ const ResetButton = styled.button`
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: ${color.red};
-    color: ${color.light};
+    background-color: ${({ theme }) => theme.accent.danger};
+    color: ${({ theme }) => theme.text.inverse};
   }
 
   &:focus-visible {
-    outline: 0.2rem solid ${color.blue};
+    outline: 0.2rem solid ${({ theme }) => theme.border.focus};
     outline-offset: 0.2rem;
   }
 
@@ -323,10 +288,10 @@ const SectionDetails = styled.details`
 `;
 
 const SectionSummary = styled.summary`
-  font-family: 'Fira Code';
+  font-family: ${({ theme }) => theme.meta.fontFamily};
   background: none;
   border: none;
-  color: ${color.light};
+  color: ${({ theme }) => theme.text.primary};
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -334,7 +299,7 @@ const SectionSummary = styled.summary`
   width: 100%;
   text-align: left;
   padding: 0.8rem 0;
-  border-bottom: 0.1rem solid ${color.darkCard};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.background.card};
   margin-bottom: 0.8rem;
   list-style: none;
 
@@ -343,7 +308,7 @@ const SectionSummary = styled.summary`
   }
 
   &:focus-visible {
-    outline: 0.2rem solid ${color.blue};
+    outline: 0.2rem solid ${({ theme }) => theme.border.focus};
     outline-offset: 0.2rem;
     border-radius: 0.4rem;
   }
@@ -351,21 +316,21 @@ const SectionSummary = styled.summary`
 
 const Chevron = styled.span<{ $open: boolean }>`
   font-size: 1.2rem;
-  color: ${color.yellow};
+  color: ${({ theme }) => theme.accent.primary};
   transform: rotate(${(props) => (props.$open ? '90deg' : '0deg')});
   transition: transform 0.2s ease;
 `;
 
 const SectionProgress = styled.span`
   font-size: 1.2rem;
-  color: ${color.darkText};
+  color: ${({ theme }) => theme.text.primary};
   margin-left: auto;
 `;
 
 const SectionProgressBar = styled.div`
   width: 8rem;
   height: 0.4rem;
-  background-color: ${color.dark};
+  background-color: ${({ theme }) => theme.background.page};
   border-radius: 0.2rem;
   overflow: hidden;
   margin-left: 0.8rem;
@@ -374,7 +339,7 @@ const SectionProgressBar = styled.div`
 const SectionProgressFill = styled.div<{ $percent: number }>`
   height: 100%;
   width: ${(props) => props.$percent}%;
-  background-color: ${color.green};
+  background-color: ${({ theme }) => theme.accent.success};
   border-radius: 0.2rem;
   transition: width 0.3s ease;
 `;
@@ -399,7 +364,7 @@ const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   width: 1.8rem;
   height: 1.8rem;
   min-width: 1.8rem;
-  border: 0.2rem solid ${color.yellow};
+  border: 0.2rem solid ${({ theme }) => theme.accent.primary};
   border-radius: 0.4rem;
   background-color: transparent;
   cursor: pointer;
@@ -408,27 +373,27 @@ const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   flex-shrink: 0;
 
   &:checked {
-    background-color: ${color.yellow};
+    background-color: ${({ theme }) => theme.accent.primary};
     &::after {
       content: '✓';
       position: absolute;
       top: -0.1rem;
       left: 0.2rem;
-      color: ${color.dark};
+      color: ${({ theme }) => theme.background.page};
       font-size: 1.2rem;
       font-weight: bold;
     }
   }
 
   &:focus-visible {
-    outline: 0.2rem solid ${color.blue};
+    outline: 0.2rem solid ${({ theme }) => theme.border.focus};
     outline-offset: 0.2rem;
   }
 `;
 
 const Tag = styled.span<{ $color: string }>`
   font-size: 1rem;
-  font-family: 'Fira Code';
+  font-family: ${({ theme }) => theme.meta.fontFamily};
   color: ${(props) => props.$color};
   border: 0.1rem solid ${(props) => props.$color};
   border-radius: 0.3rem;
@@ -440,7 +405,7 @@ const Tag = styled.span<{ $color: string }>`
 const ItemText = styled.span<{ $checked: boolean }>`
   font-size: 1.4rem;
   line-height: 2rem;
-  color: ${color.light};
+  color: ${({ theme }) => theme.text.primary};
   text-decoration: ${(props) => (props.$checked ? 'line-through' : 'none')};
 `;
 
@@ -451,21 +416,21 @@ const TitleWrapper = styled.div`
 const TitleDecorator = styled.div`
   width: 4rem;
   height: 0.4rem;
-  background-color: ${color.yellow};
+  background-color: ${({ theme }) => theme.meta.decoratorColor};
 `;
 
 const LegendWrapper = styled.div`
   margin-bottom: 2.4rem;
   padding: 1.2rem 1.6rem;
-  background-color: ${color.darkCard};
+  background-color: ${({ theme }) => theme.background.card};
   border-radius: 0.8rem;
-  border-left: 0.3rem solid ${color.yellow};
+  border-left: 0.3rem solid ${({ theme }) => theme.border.decorative};
 `;
 
 const LegendToggle = styled.button`
-  font-family: 'Fira Code';
+  font-family: ${({ theme }) => theme.meta.fontFamily};
   font-size: 1.4rem;
-  color: ${color.yellow};
+  color: ${({ theme }) => theme.accent.primary};
   background: none;
   border: none;
   cursor: pointer;
@@ -476,7 +441,7 @@ const LegendToggle = styled.button`
   border-radius: 0.4rem;
 
   &:focus-visible {
-    outline: 0.2rem solid ${color.blue};
+    outline: 0.2rem solid ${({ theme }) => theme.border.focus};
     outline-offset: 0.2rem;
   }
 
@@ -492,7 +457,7 @@ const LegendContent = styled.div`
 const LegendItem = styled.div`
   font-size: 1.3rem;
   line-height: 2rem;
-  color: ${color.light};
+  color: ${({ theme }) => theme.text.primary};
   margin-bottom: 0.6rem;
 `;
 
@@ -502,7 +467,7 @@ const LegendSection = styled.div`
 
 const LegendSectionTitle = styled.div`
   font-size: 1.3rem;
-  color: ${color.yellow};
+  color: ${({ theme }) => theme.accent.primary};
   margin-bottom: 0.4rem;
 `;
 
@@ -514,11 +479,11 @@ const SubHeadingWrapper = styled.div`
 const TextBlockWrapper = styled.div`
   font-size: 1.4rem;
   line-height: 2rem;
-  color: ${color.light};
+  color: ${({ theme }) => theme.text.primary};
   margin-bottom: 0.8rem;
 
   strong {
-    color: ${color.yellow};
+    color: ${({ theme }) => theme.accent.primary};
     font-weight: bold;
   }
 `;
@@ -531,19 +496,19 @@ const StyledTable = styled.table`
 `;
 
 const TableHead = styled.thead`
-  border-bottom: 0.2rem solid ${color.yellow};
+  border-bottom: 0.2rem solid ${({ theme }) => theme.border.decorative};
 `;
 
 const TableHeaderCell = styled.th`
   text-align: left;
   padding: 0.6rem 1.2rem;
-  color: ${color.yellow};
+  color: ${({ theme }) => theme.accent.primary};
   font-weight: bold;
   white-space: nowrap;
 `;
 
 const TableRow = styled.tr`
-  border-bottom: 0.1rem solid ${color.darkCard};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.background.card};
 
   &:last-child {
     border-bottom: none;
@@ -552,7 +517,7 @@ const TableRow = styled.tr`
 
 const TableCell = styled.td`
   padding: 0.4rem 1.2rem;
-  color: ${color.light};
+  color: ${({ theme }) => theme.text.primary};
   white-space: nowrap;
 `;
 
@@ -564,11 +529,11 @@ const OrderedList = styled.ol`
 const OrderedListItem = styled.li`
   font-size: 1.4rem;
   line-height: 2rem;
-  color: ${color.light};
+  color: ${({ theme }) => theme.text.primary};
   margin-bottom: 0.4rem;
 
   strong {
-    color: ${color.yellow};
+    color: ${({ theme }) => theme.accent.primary};
     font-weight: bold;
   }
 `;
@@ -641,11 +606,78 @@ const createCheckedStore = (gameSlug: string) => {
   return store;
 };
 
+// --- Tag color mapping hook ---
+
+const useTagColors = (theme: TagColorTheme) => {
+  const {
+    palette: { yellow, orange, red, magenta, violet, blue, cyan, green },
+    text: { primary: darkText },
+  } = theme;
+
+  return useMemo(() => {
+    const tagColors: Record<string, string> = {
+      Main: yellow,
+      Companions: orange,
+      Thieves: violet,
+      'Dark Brotherhood': red,
+      College: blue,
+      'Civil War': cyan,
+      Daedric: magenta,
+      'DLC-DG': green,
+      'DLC-DB': green,
+      Bards: violet,
+      Side: darkText,
+      Misc: darkText,
+      Collectible: cyan,
+      // FM24 Chelsea tags
+      Chelsea: blue,
+      Global: violet,
+      Immediate: green,
+      Future: cyan,
+      Sell: red,
+      Scout: darkText,
+      Hijack: orange,
+      Actual: magenta,
+      Keep: yellow,
+      Develop: green,
+    };
+
+    const paletteColors = [yellow, orange, red, magenta, violet, blue, cyan, green];
+
+    const getTagColor = (tag: string): string => {
+      if (tagColors[tag]) return tagColors[tag];
+      const prefix = tag.split(' - ')[0];
+      if (prefix && tagColors[prefix]) return tagColors[prefix];
+      let hash = 0;
+      for (const ch of tag) hash = (hash * 31 + ch.charCodeAt(0)) | 0;
+      return paletteColors[Math.abs(hash) % paletteColors.length] ?? darkText;
+    };
+
+    return { tagColors, paletteColors, getTagColor };
+  }, [yellow, orange, red, magenta, violet, blue, cyan, green, darkText]);
+};
+
 export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklistProps) => {
   const data = useMemo(() => parseWalkthrough(content), [content]);
   const store = useMemo(() => createCheckedStore(gameSlug), [gameSlug]);
   const checked = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
   const [legendOpen, setLegendOpen] = React.useState(false);
+
+  // Get theme for tag colors - using styled-components theme
+  const theme = useTheme();
+  const { getTagColor } = useTagColors({
+    palette: {
+      yellow: theme.palette.yellow,
+      orange: theme.palette.orange,
+      red: theme.palette.red,
+      magenta: theme.palette.magenta,
+      violet: theme.palette.violet,
+      blue: theme.palette.blue,
+      cyan: theme.palette.cyan,
+      green: theme.palette.green,
+    },
+    text: { primary: theme.text.primary },
+  });
 
   const toggleItem = useCallback(
     (itemId: string) => {

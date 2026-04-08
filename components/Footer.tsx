@@ -3,11 +3,9 @@ import React from 'react';
 import { FaGamepad, FaGithub } from 'react-icons/fa';
 import styled from 'styled-components';
 
-import { color } from '../styles/variables';
-
 const FooterWrapper = styled.footer`
-  background-color: ${color.dark};
-  color: ${color.darkText};
+  background-color: ${({ theme }) => theme.ui.footerBg};
+  color: ${({ theme }) => theme.ui.footerText};
   flex-shrink: 0;
   height: 4.8rem;
   padding: 1.6rem;
@@ -19,31 +17,31 @@ const FooterWrapper = styled.footer`
 
 const LogoLink = styled.a`
   font-size: 2em;
-  color: ${color.yellow};
+  color: ${({ theme }) => theme.ui.footerLink};
   margin-left: 0.4em;
   margin-bottom: 0;
   border-radius: 0.4rem;
 
   &:focus-visible {
-    outline: 0.2rem solid ${color.blue};
+    outline: 0.2rem solid ${({ theme }) => theme.border.focus};
     outline-offset: 0.2rem;
   }
 `;
 
 const HiddenLink = styled.a`
   font-size: 2em;
-  color: ${color.dark};
+  color: ${({ theme }) => theme.ui.footerLinkHidden};
   margin-right: auto;
   margin-bottom: 0;
   border-radius: 0.4rem;
   transition: color 0.3s ease;
 
   &:hover {
-    color: ${color.darkText};
+    color: ${({ theme }) => theme.ui.footerText};
   }
 
   &:focus-visible {
-    outline: 0.2rem solid ${color.blue};
+    outline: 0.2rem solid ${({ theme }) => theme.border.focus};
     outline-offset: 0.2rem;
   }
 
