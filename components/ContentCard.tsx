@@ -37,13 +37,21 @@ const CardLink = styled(Link)`
   }
 
   &:focus-visible {
-    outline: 0.2rem solid ${color.yellow};
+    outline: 0.2rem solid ${color.blue};
     outline-offset: 0.2rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
   }
 `;
 
 const TitleWrapper = styled.div`
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
 `;
 
 const DescriptionWrapper = styled.div`

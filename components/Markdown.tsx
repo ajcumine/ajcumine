@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { color } from '../styles/variables';
 
 import { BulletList, BulletListItem } from './BulletList';
+import { ProseContainer } from './ProseContainer';
 import { AnchorLink, Typography } from './Typography';
 
 const TitleWrapper = styled.div`
@@ -117,5 +118,7 @@ const componentMap: Components = {
 };
 
 export const Markdown = ({ content }: { content: string }) => (
-  <ReactMarkdown components={componentMap}>{content}</ReactMarkdown>
+  <ProseContainer>
+    <ReactMarkdown components={componentMap}>{content}</ReactMarkdown>
+  </ProseContainer>
 );

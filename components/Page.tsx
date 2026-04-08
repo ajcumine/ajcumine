@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 
 const ContentWrapper = styled.div`
   flex: 1 0 auto;
-  margin: 0 1.6rem;
+  margin: 0 2.4rem;
   @media (min-width: ${size.tablet}) {
     max-width: 860px;
     margin: 0 auto;
@@ -32,7 +32,7 @@ const ContentWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
 `;
 
 export const Page = ({ children, title }: { children?: React.ReactNode; title?: string }) => (

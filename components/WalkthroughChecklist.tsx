@@ -307,13 +307,22 @@ const ResetButton = styled.button`
     background-color: ${color.red};
     color: ${color.light};
   }
+
+  &:focus-visible {
+    outline: 0.2rem solid ${color.blue};
+    outline-offset: 0.2rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
-const SectionWrapper = styled.div`
+const SectionDetails = styled.details`
   margin-bottom: 2.4rem;
 `;
 
-const SectionHeader = styled.button`
+const SectionSummary = styled.summary`
   font-family: 'Fira Code';
   background: none;
   border: none;
@@ -327,6 +336,17 @@ const SectionHeader = styled.button`
   padding: 0.8rem 0;
   border-bottom: 0.1rem solid ${color.darkCard};
   margin-bottom: 0.8rem;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    outline: 0.2rem solid ${color.blue};
+    outline-offset: 0.2rem;
+    border-radius: 0.4rem;
+  }
 `;
 
 const Chevron = styled.span<{ $open: boolean }>`
@@ -380,11 +400,12 @@ const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   height: 1.8rem;
   min-width: 1.8rem;
   border: 0.2rem solid ${color.yellow};
-  border-radius: 0.3rem;
+  border-radius: 0.4rem;
   background-color: transparent;
   cursor: pointer;
   margin-top: 0.2rem;
   position: relative;
+  flex-shrink: 0;
 
   &:checked {
     background-color: ${color.yellow};
@@ -397,6 +418,11 @@ const Checkbox = styled.input.attrs({ type: 'checkbox' })`
       font-size: 1.2rem;
       font-weight: bold;
     }
+  }
+
+  &:focus-visible {
+    outline: 0.2rem solid ${color.blue};
+    outline-offset: 0.2rem;
   }
 `;
 
@@ -419,14 +445,13 @@ const ItemText = styled.span<{ $checked: boolean }>`
 `;
 
 const TitleWrapper = styled.div`
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
 `;
 
 const TitleDecorator = styled.div`
   width: 4rem;
-  height: 0.2rem;
+  height: 0.4rem;
   background-color: ${color.yellow};
-  border-radius: 0.1rem;
 `;
 
 const LegendWrapper = styled.div`
@@ -448,6 +473,16 @@ const LegendToggle = styled.button`
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  border-radius: 0.4rem;
+
+  &:focus-visible {
+    outline: 0.2rem solid ${color.blue};
+    outline-offset: 0.2rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
 const LegendContent = styled.div`
@@ -610,7 +645,6 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
   const data = useMemo(() => parseWalkthrough(content), [content]);
   const store = useMemo(() => createCheckedStore(gameSlug), [gameSlug]);
   const checked = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
-  const [collapsedSections, setCollapsedSections] = React.useState<Set<number>>(new Set());
   const [legendOpen, setLegendOpen] = React.useState(false);
 
   const toggleItem = useCallback(
@@ -619,18 +653,6 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
     },
     [store],
   );
-
-  const toggleSection = useCallback((sectionIndex: number) => {
-    setCollapsedSections((prev) => {
-      const next = new Set(prev);
-      if (next.has(sectionIndex)) {
-        next.delete(sectionIndex);
-      } else {
-        next.add(sectionIndex);
-      }
-      return next;
-    });
-  }, []);
 
   const resetProgress = useCallback(() => {
     store.reset();
@@ -683,14 +705,20 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
         )}
       </LegendWrapper>
 
-      <OverallProgressWrapper>
+      <OverallProgressWrapper aria-live="polite" aria-atomic="true">
         <ProgressLabel>
           <span>Overall progress</span>
           <span>
             {totalChecked} / {totalItems} ({overallPercent}%)
           </span>
         </ProgressLabel>
-        <ProgressBarOuter>
+        <ProgressBarOuter
+          role="progressbar"
+          aria-valuenow={overallPercent}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`Overall progress: ${overallPercent} percent`}
+        >
           <ProgressBarInner $percent={overallPercent} />
         </ProgressBarOuter>
         <ResetButton onClick={resetProgress}>Reset all progress</ResetButton>
@@ -702,90 +730,92 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
         const sectionTotal = sectionItems.length;
         const sectionPercent =
           sectionTotal > 0 ? Math.round((sectionChecked / sectionTotal) * 100) : 0;
-        const isOpen = !collapsedSections.has(sectionIndex);
 
         return (
-          <SectionWrapper key={sectionIndex}>
-            <SectionHeader onClick={() => toggleSection(sectionIndex)}>
-              <Chevron $open={isOpen}>▶</Chevron>
+          <SectionDetails key={sectionIndex} open>
+            <SectionSummary>
+              <Chevron $open={true}>▶</Chevron>
               <Typography variant="h3">{section.title}</Typography>
-              <SectionProgress>
+              <SectionProgress aria-label={`${sectionChecked} of ${sectionTotal} items completed`}>
                 {sectionChecked}/{sectionTotal}
               </SectionProgress>
-              <SectionProgressBar>
+              <SectionProgressBar
+                role="progressbar"
+                aria-valuenow={sectionPercent}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`Section progress: ${sectionPercent} percent`}
+              >
                 <SectionProgressFill $percent={sectionPercent} />
               </SectionProgressBar>
-            </SectionHeader>
+            </SectionSummary>
 
-            {isOpen && (
-              <ItemList>
-                {section.blocks.map((block, blockIndex) => {
-                  switch (block.type) {
-                    case 'checklist':
-                      return (
-                        <ItemRow key={block.id} $checked={checked.has(block.id)}>
-                          <Checkbox
-                            checked={checked.has(block.id)}
-                            onChange={() => toggleItem(block.id)}
-                          />
-                          <Tag $color={getTagColor(block.tag)}>{block.tag}</Tag>
-                          <ItemText $checked={checked.has(block.id)}>
-                            {renderInlineFormatting(block.text)}
-                          </ItemText>
-                        </ItemRow>
-                      );
-                    case 'subheading':
-                      return (
-                        <SubHeadingWrapper key={`sh-${blockIndex}`}>
-                          <Typography variant="h3">{block.text}</Typography>
-                        </SubHeadingWrapper>
-                      );
-                    case 'text':
-                      return (
-                        <TextBlockWrapper key={`txt-${blockIndex}`}>
+            <ItemList>
+              {section.blocks.map((block, blockIndex) => {
+                switch (block.type) {
+                  case 'checklist':
+                    return (
+                      <ItemRow key={block.id} $checked={checked.has(block.id)}>
+                        <Checkbox
+                          checked={checked.has(block.id)}
+                          onChange={() => toggleItem(block.id)}
+                          aria-label={`${block.tag}: ${block.text}`}
+                        />
+                        <Tag $color={getTagColor(block.tag)}>{block.tag}</Tag>
+                        <ItemText $checked={checked.has(block.id)}>
                           {renderInlineFormatting(block.text)}
-                        </TextBlockWrapper>
-                      );
-                    case 'table':
-                      return (
-                        <StyledTable key={`tbl-${blockIndex}`}>
-                          <TableHead>
-                            <tr>
-                              {block.headers.map((h, i) => (
-                                <TableHeaderCell key={i}>{h}</TableHeaderCell>
-                              ))}
-                            </tr>
-                          </TableHead>
-                          <tbody>
-                            {block.rows.map((row, rowIndex) => (
-                              <TableRow key={rowIndex}>
-                                {row.map((cell, cellIndex) => (
-                                  <TableCell key={cellIndex}>
-                                    {renderInlineFormatting(cell)}
-                                  </TableCell>
-                                ))}
-                              </TableRow>
+                        </ItemText>
+                      </ItemRow>
+                    );
+                  case 'subheading':
+                    return (
+                      <SubHeadingWrapper key={`sh-${blockIndex}`}>
+                        <Typography variant="h3">{block.text}</Typography>
+                      </SubHeadingWrapper>
+                    );
+                  case 'text':
+                    return (
+                      <TextBlockWrapper key={`txt-${blockIndex}`}>
+                        {renderInlineFormatting(block.text)}
+                      </TextBlockWrapper>
+                    );
+                  case 'table':
+                    return (
+                      <StyledTable key={`tbl-${blockIndex}`}>
+                        <TableHead>
+                          <tr>
+                            {block.headers.map((h, i) => (
+                              <TableHeaderCell key={i}>{h}</TableHeaderCell>
                             ))}
-                          </tbody>
-                        </StyledTable>
-                      );
-                    case 'ordered-list':
-                      return (
-                        <OrderedList key={`ol-${blockIndex}`}>
-                          {block.items.map((item, i) => (
-                            <OrderedListItem key={i}>
-                              {renderInlineFormatting(item)}
-                            </OrderedListItem>
+                          </tr>
+                        </TableHead>
+                        <tbody>
+                          {block.rows.map((row, rowIndex) => (
+                            <TableRow key={rowIndex}>
+                              {row.map((cell, cellIndex) => (
+                                <TableCell key={cellIndex}>
+                                  {renderInlineFormatting(cell)}
+                                </TableCell>
+                              ))}
+                            </TableRow>
                           ))}
-                        </OrderedList>
-                      );
-                    default:
-                      return null;
-                  }
-                })}
-              </ItemList>
-            )}
-          </SectionWrapper>
+                        </tbody>
+                      </StyledTable>
+                    );
+                  case 'ordered-list':
+                    return (
+                      <OrderedList key={`ol-${blockIndex}`}>
+                        {block.items.map((item, i) => (
+                          <OrderedListItem key={i}>{renderInlineFormatting(item)}</OrderedListItem>
+                        ))}
+                      </OrderedList>
+                    );
+                  default:
+                    return null;
+                }
+              })}
+            </ItemList>
+          </SectionDetails>
         );
       })}
     </Wrapper>

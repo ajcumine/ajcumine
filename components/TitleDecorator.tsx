@@ -10,9 +10,8 @@ interface TitleDecoratorProps {
 
 const Decorator = styled.div<TitleDecoratorProps>`
   width: ${({ width }) => width || '4rem'};
-  height: 0.2rem;
+  height: 0.4rem;
   background-color: ${color.yellow};
-  border-radius: 0.1rem;
 `;
 
 export const TitleDecorator = ({ width }: TitleDecoratorProps) => <Decorator width={width} />;
