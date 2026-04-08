@@ -59,5 +59,14 @@ export const cyberpunk: Theme = {
     cardBoxShadow: '0 0 1rem rgba(0, 255, 65, 0.1)',
     codeTheme: 'a11yDark',
     decoratorColor: '#00ff41',
+    backgroundCss: [
+      'background-image: repeating-linear-gradient(',
+      '  to bottom,',
+      '  transparent,',
+      '  transparent 2px,',
+      '  rgba(0, 255, 65, 0.04) 2px,',
+      '  rgba(0, 255, 65, 0.04) 4px',
+      ');',
+    ].join('\n'),
   },
 };

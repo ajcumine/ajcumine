@@ -61,6 +61,7 @@ export interface ThemeMeta {
   cardBoxShadow: string;
   codeTheme: string;
   decoratorColor: string;
+  backgroundCss?: string;
 }
 
 export interface Theme {

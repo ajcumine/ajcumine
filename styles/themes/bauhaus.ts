@@ -60,5 +60,14 @@ export const bauhaus: Theme = {
     cardBoxShadow: '0.4rem 0.4rem 0 #111111',
     codeTheme: 'oneLight',
     decoratorColor: '#e03526',
+    backgroundCss: [
+      'background-image:',
+      '  linear-gradient(to right, #e03526 0, #e03526 8px, transparent 8px),',
+      '  linear-gradient(to bottom, #005b9f 0, #005b9f 120px, transparent 120px),',
+      '  linear-gradient(to left, #ffd519 0, #ffd519 60px, transparent 60px);',
+      'background-position: 0% 10%, 100% 0%, 100% 90%;',
+      'background-repeat: no-repeat;',
+      'background-attachment: fixed;',
+    ].join('\n'),
   },
 };

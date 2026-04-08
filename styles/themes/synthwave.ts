@@ -59,5 +59,12 @@ export const synthwave: Theme = {
     cardBoxShadow: '0 0 1.5rem rgba(255, 106, 193, 0.15), 0 0 0.5rem rgba(0, 255, 245, 0.1)',
     codeTheme: 'a11yDark',
     decoratorColor: '#ff6ac1',
+    backgroundCss: [
+      'background-image:',
+      '  linear-gradient(to bottom, transparent 60%, rgba(155, 89, 182, 0.15) 100%),',
+      '  repeating-linear-gradient(to bottom, transparent, transparent 39px, rgba(0, 255, 245, 0.05) 39px, rgba(0, 255, 245, 0.05) 40px),',
+      '  repeating-linear-gradient(to right, transparent, transparent 39px, rgba(255, 106, 193, 0.03) 39px, rgba(255, 106, 193, 0.03) 40px);',
+      'background-attachment: fixed;',
+    ].join('\n'),
   },
 };

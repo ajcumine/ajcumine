@@ -60,5 +60,14 @@ export const geocities: Theme = {
     cardBoxShadow: 'none',
     codeTheme: 'a11yDark',
     decoratorColor: '#ff00ff',
+    backgroundCss: [
+      'background-image:',
+      '  radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),',
+      '  radial-gradient(1px 1px at 40px 70px, #ffffff, rgba(0,0,0,0)),',
+      '  radial-gradient(2px 2px at 90px 40px, #ffff00, rgba(0,0,0,0)),',
+      '  radial-gradient(2px 2px at 160px 120px, #00ffff, rgba(0,0,0,0)),',
+      '  radial-gradient(1px 1px at 240px 90px, #ff00ff, rgba(0,0,0,0));',
+      'background-size: 300px 300px;',
+    ].join('\n'),
   },
 };

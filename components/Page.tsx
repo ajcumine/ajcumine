@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   transition:
     background-color 300ms ease-in-out,
     color 300ms ease-in-out;
+  ${({ theme }) => theme.meta.backgroundCss || ''}
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;

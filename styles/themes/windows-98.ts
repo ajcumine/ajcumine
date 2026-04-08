@@ -59,5 +59,14 @@ export const windows98: Theme = {
     cardBoxShadow: 'none',
     codeTheme: 'vs',
     decoratorColor: '#000080',
+    backgroundCss: [
+      'background-image: repeating-conic-gradient(',
+      '  rgba(0, 0, 0, 0.05) 0% 25%,',
+      '  transparent 25% 50%,',
+      '  rgba(0, 0, 0, 0.05) 50% 75%,',
+      '  transparent 75% 100%',
+      ');',
+      'background-size: 4px 4px;',
+    ].join('\n'),
   },
 };

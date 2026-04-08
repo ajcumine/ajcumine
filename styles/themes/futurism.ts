@@ -60,5 +60,18 @@ export const futurism: Theme = {
     cardBoxShadow: 'none',
     codeTheme: 'a11yDark',
     decoratorColor: '#ff3300',
+    backgroundCss: [
+      'background-image: repeating-linear-gradient(',
+      '  -45deg,',
+      '  transparent,',
+      '  transparent 20px,',
+      '  rgba(0, 0, 0, 0.03) 20px,',
+      '  rgba(0, 0, 0, 0.03) 21px,',
+      '  transparent 21px,',
+      '  transparent 40px,',
+      '  rgba(255, 51, 0, 0.03) 40px,',
+      '  rgba(255, 51, 0, 0.03) 41px',
+      ');',
+    ].join('\n'),
   },
 };
