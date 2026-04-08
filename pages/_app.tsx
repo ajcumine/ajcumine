@@ -6,6 +6,10 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { StyleSheetManager } from 'styled-components';
 
+import { ThemeGlobalStyles } from '../components/ThemeGlobalStyles';
+import { ThemeContextProvider } from '../styles/ThemeContext';
+import { themes } from '../styles/themes';
+
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <>
     <Head>
@@ -13,7 +17,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
       <link href="/favicon.ico" rel="icon" />
     </Head>
     <StyleSheetManager shouldForwardProp={(prop) => !prop.startsWith('$')}>
-      <Component {...pageProps} />
+      <ThemeContextProvider themes={themes}>
+        <ThemeGlobalStyles />
+        <Component {...pageProps} />
+      </ThemeContextProvider>
     </StyleSheetManager>
   </>
 );

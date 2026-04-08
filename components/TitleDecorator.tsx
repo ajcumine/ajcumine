@@ -2,8 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { color } from '../styles/variables';
-
 interface TitleDecoratorProps {
   width?: string;
 }
@@ -11,7 +9,8 @@ interface TitleDecoratorProps {
 const Decorator = styled.div<TitleDecoratorProps>`
   width: ${({ width }) => width || '4rem'};
   height: 0.4rem;
-  background-color: ${color.yellow};
+  background-color: ${({ theme }) => theme.meta.decoratorColor};
+  ${({ theme }) => theme.meta.decoratorCss || ''}
 `;
 
 export const TitleDecorator = ({ width }: TitleDecoratorProps) => <Decorator width={width} />;

@@ -2,8 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { color } from '../styles/variables';
-
 interface TypographyProps {
   variant: 'h1' | 'h2' | 'h3' | 'body' | 'secondary';
   children: React.ReactNode;
@@ -11,25 +9,41 @@ interface TypographyProps {
 
 const H1 = styled.h1`
   font-size: 4.4rem;
+  text-transform: ${({ theme }) => theme.meta.headingTransform || 'none'};
+  letter-spacing: ${({ theme }) => theme.meta.headingLetterSpacing || 'normal'};
+  font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
+  font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
+  ${({ theme }) => theme.meta.headingCss || ''}
 `;
 
 const H2 = styled.h2`
   font-size: 2.8rem;
+  text-transform: ${({ theme }) => theme.meta.headingTransform || 'none'};
+  letter-spacing: ${({ theme }) => theme.meta.headingLetterSpacing || 'normal'};
+  font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
+  font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
+  ${({ theme }) => theme.meta.headingCss || ''}
 `;
 
 const H3 = styled.h3`
   font-size: 2.4rem;
+  text-transform: ${({ theme }) => theme.meta.headingTransform || 'none'};
+  letter-spacing: ${({ theme }) => theme.meta.headingLetterSpacing || 'normal'};
+  font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
+  font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
+  ${({ theme }) => theme.meta.headingCss || ''}
 `;
 
 const Body = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
+  ${({ theme }) => theme.meta.bodyCss || ''}
 `;
 
 const Secondary = styled.div`
   font-size: 1.4rem;
   line-height: 2rem;
-  color: ${color.secondaryText};
+  color: ${({ theme }) => theme.text.secondary};
 `;
 
 export const Typography = ({ variant, children }: TypographyProps) => {
@@ -51,7 +65,7 @@ export const Typography = ({ variant, children }: TypographyProps) => {
 };
 
 export const AnchorLink = styled.a`
-  color: ${color.yellow};
+  color: ${({ theme }) => theme.text.link};
   text-decoration: none;
 
   &:hover {

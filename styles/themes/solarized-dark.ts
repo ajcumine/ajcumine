@@ -1,0 +1,63 @@
+import { Theme } from '../theme.types';
+
+export const solarizedDark: Theme = {
+  name: 'Solarized Dark',
+  slug: 'solarized-dark',
+  background: {
+    page: '#002b36',
+    card: '#003b4a',
+    cardHover: '#003a48',
+    code: '#003b4a',
+  },
+  text: {
+    primary: '#839496',
+    secondary: '#93a1a1',
+    heading: '#839496',
+    link: '#b58900',
+    linkHover: '#b58900',
+    inverse: '#fdf6e3',
+  },
+  accent: {
+    primary: '#b58900',
+    secondary: '#d33682',
+    highlight: '#2aa198',
+    danger: '#dc322f',
+    success: '#859900',
+    decorative: '#b58900',
+  },
+  border: {
+    default: 'rgba(255, 255, 255, 0.05)',
+    focus: '#268bd2',
+    decorative: '#b58900',
+    radius: '0.8rem',
+  },
+  ui: {
+    navBg: '#002b36',
+    navText: '#839496',
+    navLinkActive: '#d33682',
+    navLinkInactive: '#b58900',
+    navLinkHoverBorder: '#b58900',
+    footerBg: '#002b36',
+    footerText: '#839496',
+    footerLink: '#b58900',
+    footerLinkHidden: '#002b36',
+  },
+  palette: {
+    yellow: '#b58900',
+    orange: '#cb4b16',
+    red: '#dc322f',
+    magenta: '#d33682',
+    violet: '#6c71c4',
+    blue: '#268bd2',
+    cyan: '#2aa198',
+    green: '#859900',
+  },
+  meta: {
+    fontFamily: "'Fira Code'",
+    borderStyle: 'solid',
+    cardBorderStyle: '0.1rem solid rgba(255, 255, 255, 0.05)',
+    cardBoxShadow: '0 1rem 2rem rgba(0, 0, 0, 0.19), 0 0.6rem 0.6rem rgba(0, 0, 0, 0.23)',
+    codeTheme: 'a11yDark',
+    decoratorColor: '#b58900',
+  },
+};
