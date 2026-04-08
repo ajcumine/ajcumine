@@ -12,9 +12,19 @@ const StyledNavLink = styled(Link)<{ $active: boolean }>`
   color: ${(props) => (props.$active ? color.magenta : color.yellow)};
   border-bottom: 0.2rem solid;
   border-color: ${(props) => (props.$active ? color.magenta : color.dark)};
+  border-radius: 0.2rem;
 
   &:hover {
     border-color: ${(props) => (props.$active ? color.magenta : color.yellow)};
+  }
+
+  &:focus-visible {
+    outline: 0.2rem solid ${color.blue};
+    outline-offset: 0.2rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 `;
 
@@ -23,7 +33,7 @@ const NavBarWrapper = styled.nav`
   color: ${color.darkText};
   flex-shrink: 0;
   height: 4.8rem;
-  padding: 1.2rem 1.6em;
+  padding: 1.6rem;
   overflow: hidden;
   display: flex;
   align-items: center;
