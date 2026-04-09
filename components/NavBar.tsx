@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
+import { useThemeSwitch } from '../styles/ThemeContext';
+
+import { BauhausNav } from './BauhausNav';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
 const StyledNavLink = styled(Link)<{ $active: boolean }>`
@@ -64,7 +67,8 @@ export const StyledLink = ({
   </StyledNavLink>
 );
 
-export const NavBar = () => {
+export const NavBar = (): React.ReactElement => {
+  const { themeName } = useThemeSwitch();
   const router = useRouter();
   const routes = [
     { href: '/', name: 'Home' },
@@ -72,6 +76,10 @@ export const NavBar = () => {
     { href: '/blog', name: 'Blog' },
     { href: '/projects', name: 'Projects' },
   ];
+
+  if (themeName === 'bauhaus') {
+    return <BauhausNav />;
+  }
 
   return (
     <NavBarWrapper>
