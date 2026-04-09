@@ -76,7 +76,17 @@ export const futurism: Theme = {
     headingTransform: 'uppercase',
     headingLetterSpacing: '0.1em',
     headingFontStyle: 'italic',
-    headingCss: 'font-weight: 900;',
+    headingCss: [
+      'font-weight: 900;',
+      'font-style: italic;',
+      'transform: skewX(calc(-2deg + var(--scroll-velocity, 0) * -8deg));',
+      'text-shadow: calc(var(--scroll-velocity, 0) * 0.5rem) 0 0.1rem rgba(255, 51, 0, 0.3);',
+      'transition: transform 300ms ease-out, text-shadow 300ms ease-out;',
+    ].join('\n'),
+    bodyCss: [
+      'transform: skewX(calc(var(--scroll-velocity, 0) * -3deg));',
+      'transition: transform 300ms ease-out;',
+    ].join('\n'),
     navCss: ['transform: skewX(-3deg);', 'border-bottom: 0.3rem solid #ff3300;'].join('\n'),
     navLinkCss: [
       'display: inline-block;',
@@ -115,11 +125,6 @@ export const futurism: Theme = {
       'clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);',
       'padding-top: 3.2rem;',
     ].join('\n'),
-    globalCss: [
-      '* {',
-      '  transition-timing-function: linear !important;',
-      '  transition-duration: 0.1s !important;',
-      '}',
-    ].join('\n'),
+    globalCss: '',
   },
 };
