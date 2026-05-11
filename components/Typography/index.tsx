@@ -2,6 +2,10 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import { assertNever } from '../../styles/utils';
+
+import { headingVariants, bodyVariants } from './variants';
+
 interface TypographyProps {
   variant: 'h1' | 'h2' | 'h3' | 'body' | 'secondary';
   children: React.ReactNode;
@@ -13,7 +17,7 @@ const H1 = styled.h1`
   letter-spacing: ${({ theme }) => theme.meta.headingLetterSpacing || 'normal'};
   font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
   font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
-  ${({ theme }) => theme.meta.headingCss || ''}
+  ${({ theme }) => headingVariants[theme.slug]}
 `;
 
 const H2 = styled.h2`
@@ -22,7 +26,7 @@ const H2 = styled.h2`
   letter-spacing: ${({ theme }) => theme.meta.headingLetterSpacing || 'normal'};
   font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
   font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
-  ${({ theme }) => theme.meta.headingCss || ''}
+  ${({ theme }) => headingVariants[theme.slug]}
 `;
 
 const H3 = styled.h3`
@@ -31,13 +35,13 @@ const H3 = styled.h3`
   letter-spacing: ${({ theme }) => theme.meta.headingLetterSpacing || 'normal'};
   font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
   font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
-  ${({ theme }) => theme.meta.headingCss || ''}
+  ${({ theme }) => headingVariants[theme.slug]}
 `;
 
 const Body = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
-  ${({ theme }) => theme.meta.bodyCss || ''}
+  ${({ theme }) => bodyVariants[theme.slug]}
 `;
 
 const Secondary = styled.div`
@@ -60,7 +64,7 @@ export const Typography = ({ variant, children }: TypographyProps) => {
       return <Secondary>{children}</Secondary>;
 
     default:
-      return <Body>{children}</Body>;
+      return assertNever(variant);
   }
 };
 

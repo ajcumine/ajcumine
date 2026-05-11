@@ -2,12 +2,15 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { size } from '../styles/variables';
+import { useThemeSwitch } from '../../styles/ThemeContext';
+import { assertNever } from '../../styles/utils';
+import { size } from '../../styles/variables';
+import { Footer } from '../Footer';
+import { NavBar } from '../NavBar';
+import { TitleDecorator } from '../TitleDecorator';
+import { Typography } from '../Typography';
 
-import { Footer } from './Footer';
-import { NavBar } from './NavBar';
-import { TitleDecorator } from './TitleDecorator';
-import { Typography } from './Typography';
+import { pageBackgroundVariants } from './variants';
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.background.page};
@@ -19,7 +22,7 @@ const Wrapper = styled.div`
   transition:
     background-color 300ms ease-in-out,
     color 300ms ease-in-out;
-  ${({ theme }) => theme.meta.backgroundCss || ''}
+  ${({ theme }) => pageBackgroundVariants[theme.slug]}
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -43,7 +46,7 @@ const TitleWrapper = styled.div`
   margin-bottom: 1.6rem;
 `;
 
-export const Page = ({ children, title }: { children?: React.ReactNode; title?: string }) => (
+const DefaultLayout = ({ children, title }: { children?: React.ReactNode; title?: string }) => (
   <Wrapper>
     <NavBar />
     <ContentWrapper>
@@ -58,3 +61,20 @@ export const Page = ({ children, title }: { children?: React.ReactNode; title?: 
     <Footer />
   </Wrapper>
 );
+
+export const Page = ({ children, title }: { children?: React.ReactNode; title?: string }) => {
+  const { themeName } = useThemeSwitch();
+
+  switch (themeName) {
+    case 'solarized-dark':
+    case 'cyberpunk':
+    case 'windows-98':
+    case 'geocities':
+    case 'bauhaus':
+    case 'futurism':
+    case 'synthwave':
+      return <DefaultLayout title={title}>{children}</DefaultLayout>;
+    default:
+      return assertNever(themeName);
+  }
+};
