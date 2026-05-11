@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-import { ThemeSwitcher } from './ThemeSwitcher';
+import { ThemeSwitcher } from '../ThemeSwitcher';
+
+import { navBarVariants, navLinkVariants } from './variants';
 
 const StyledNavLink = styled(Link)<{ $active: boolean }>`
   font-size: 1.6em;
@@ -28,7 +30,7 @@ const StyledNavLink = styled(Link)<{ $active: boolean }>`
     transition: none;
   }
 
-  ${({ theme }) => theme.meta.navLinkCss || ''}
+  ${({ theme }) => navLinkVariants[theme.slug]}
 `;
 
 const NavBarWrapper = styled.nav`
@@ -42,7 +44,7 @@ const NavBarWrapper = styled.nav`
   align-items: center;
   margin-bottom: 2.4rem;
 
-  ${({ theme }) => theme.meta.navCss || ''}
+  ${({ theme }) => navBarVariants[theme.slug]}
 `;
 
 const ListItem = styled.li`

@@ -1,7 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { globalVariants } from '../styles/globalVariants';
+
 export const ThemeGlobalStyles = createGlobalStyle`
-  ${({ theme }) => theme.meta.globalCss || ''}
+  ${({ theme }) => globalVariants[theme.slug]}
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { useTheme } from 'styled-components';
 import styled, { css, keyframes } from 'styled-components';
-
-import { useThemeSwitch } from '../styles/ThemeContext';
 
 const MESSAGES = [
   "It looks like you're browsing a website. Would you like help with that?",
@@ -271,7 +270,7 @@ const ClippySvg = () => (
 );
 
 export const Clippy = (): React.ReactElement | null => {
-  const { themeName } = useThemeSwitch();
+  const theme = useTheme();
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const [isBouncing, setIsBouncing] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
@@ -297,16 +296,16 @@ export const Clippy = (): React.ReactElement | null => {
 
   // Show bubble automatically after 3 seconds when Clippy appears
   useEffect(() => {
-    if (themeName !== 'windows-98') return;
+    if (!theme.meta.hasMascot) return;
 
     const timer = setTimeout(() => {
       setIsBubbleVisible(true);
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [themeName]);
+  }, [theme.meta.hasMascot]);
 
-  if (themeName !== 'windows-98') {
+  if (!theme.meta.hasMascot) {
     return null;
   }
 

@@ -53,34 +53,29 @@ export interface ThemePalette {
   green: string;
 }
 
+export type ThemeSlug =
+  | 'solarized-dark'
+  | 'cyberpunk'
+  | 'windows-98'
+  | 'geocities'
+  | 'bauhaus'
+  | 'futurism'
+  | 'synthwave';
+
 export interface ThemeMeta {
   fontFamily: string;
   fontFamilyHeading?: string;
-  borderStyle: string;
-  cardBorderStyle: string;
-  cardBoxShadow: string;
   codeTheme: string;
   decoratorColor: string;
-  backgroundCss?: string;
-  // NEW — per-component CSS injection
-  navCss?: string; // Extra CSS for NavBarWrapper
-  navLinkCss?: string; // Extra CSS for nav links
-  cardCss?: string; // Extra CSS for ContentCard base
-  cardHoverCss?: string; // Extra CSS for ContentCard :hover
-  footerCss?: string; // Extra CSS for FooterWrapper
-  headingCss?: string; // Extra CSS for H1/H2/H3
-  bodyCss?: string; // Extra CSS for body text
-  decoratorCss?: string; // Extra CSS for TitleDecorator (replaces/augments bar)
-  globalCss?: string; // Global CSS (overlays, cursors, selection, keyframes)
-  // NEW — typography control
-  headingTransform?: string; // text-transform value
-  headingLetterSpacing?: string; // letter-spacing value
-  headingFontStyle?: string; // font-style value (normal/italic)
+  headingTransform?: string;
+  headingLetterSpacing?: string;
+  headingFontStyle?: string;
+  hasMascot?: boolean;
 }
 
 export interface Theme {
   name: string;
-  slug: string;
+  slug: ThemeSlug;
   background: ThemeBackground;
   text: ThemeText;
   accent: ThemeAccent;

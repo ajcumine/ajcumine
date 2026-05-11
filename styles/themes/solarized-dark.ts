@@ -54,9 +54,6 @@ export const solarizedDark: Theme = {
   },
   meta: {
     fontFamily: "'Fira Code'",
-    borderStyle: 'solid',
-    cardBorderStyle: '0.1rem solid rgba(255, 255, 255, 0.05)',
-    cardBoxShadow: '0 1rem 2rem rgba(0, 0, 0, 0.19), 0 0.6rem 0.6rem rgba(0, 0, 0, 0.23)',
     codeTheme: 'a11yDark',
     decoratorColor: '#b58900',
   },

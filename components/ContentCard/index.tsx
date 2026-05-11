@@ -4,8 +4,10 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { TitleDecorator } from './TitleDecorator';
-import { Typography } from './Typography';
+import { TitleDecorator } from '../TitleDecorator';
+import { Typography } from '../Typography';
+
+import { contentCardHoverVariants, contentCardVariants } from './variants';
 
 const CardLink = styled(Link)`
   cursor: pointer;
@@ -14,8 +16,10 @@ const CardLink = styled(Link)`
   padding: 1.6rem;
   background-color: ${({ theme }) => theme.background.card};
   color: ${({ theme }) => theme.text.secondary};
-  border: ${({ theme }) => theme.meta.cardBorderStyle};
-  box-shadow: ${({ theme }) => theme.meta.cardBoxShadow};
+  border: 0.1rem solid ${({ theme }) => theme.border.default};
+  box-shadow:
+    0 1rem 2rem rgba(0, 0, 0, 0.19),
+    0 0.6rem 0.6rem rgba(0, 0, 0, 0.23);
   transition:
     transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
     background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
@@ -24,7 +28,7 @@ const CardLink = styled(Link)`
   flex-direction: column;
   text-decoration: none;
 
-  ${({ theme }) => theme.meta.cardCss || ''}
+  ${({ theme }) => contentCardVariants[theme.slug]}
 
   &:hover {
     transform: translateY(-0.2rem);
@@ -33,7 +37,7 @@ const CardLink = styled(Link)`
       0 1.4rem 2.8rem rgba(0, 0, 0, 0.25),
       0 1rem 1rem rgba(0, 0, 0, 0.22);
 
-    ${({ theme }) => theme.meta.cardHoverCss || ''}
+    ${({ theme }) => contentCardHoverVariants[theme.slug]}
   }
 
   &:focus-visible {

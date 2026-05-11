@@ -3,6 +3,8 @@ import React from 'react';
 import { FaGamepad, FaGithub } from 'react-icons/fa';
 import styled from 'styled-components';
 
+import { footerVariants } from './variants';
+
 const FooterWrapper = styled.footer`
   background-color: ${({ theme }) => theme.ui.footerBg};
   color: ${({ theme }) => theme.ui.footerText};
@@ -14,7 +16,7 @@ const FooterWrapper = styled.footer`
   align-items: center;
   justify-content: flex-end;
 
-  ${({ theme }) => theme.meta.footerCss || ''}
+  ${({ theme }) => footerVariants[theme.slug]}
 `;
 
 const LogoLink = styled.a`
