@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useLayoutEffect, useMemo, useState } from 'react';
 
 import { ThemeProvider as SCThemeProvider } from 'styled-components';
 
@@ -24,18 +24,37 @@ interface ThemeContextProviderProps {
 export const ThemeContextProvider = ({ themes: themeMap, children }: ThemeContextProviderProps) => {
   const [activeSlug, setActiveSlug] = useState<ThemeSlug>(DEFAULT_THEME_SLUG);
 
-  // Hydrate from localStorage after mount to avoid SSR mismatch
-  useEffect(() => {
+  // Hydrate theme from localStorage and remove the loading guard.
+  // useLayoutEffect runs after DOM mutations but before paint,
+  // ensuring the correct theme is active before the user sees anything.
+  // This is a one-time hydration effect - intentional setState during mount.
+  /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
+  useLayoutEffect(() => {
+    let nextSlug: ThemeSlug = DEFAULT_THEME_SLUG;
+
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored && isValidThemeSlug(stored)) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- Required for SSR hydration: must read localStorage after mount to avoid server/client mismatch
-        setActiveSlug(stored);
+        nextSlug = stored;
       }
     } catch {
       // localStorage unavailable
     }
+
+    if (nextSlug !== activeSlug) {
+      setActiveSlug(nextSlug);
+    }
+
+    // Sync the data-theme attribute and remove the loading guard
+    // so the page becomes visible. This always runs even if localStorage fails.
+    try {
+      document.documentElement.setAttribute('data-theme', nextSlug);
+      document.documentElement.removeAttribute('data-theme-loading');
+    } catch {
+      // DOM unavailable
+    }
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 
   const setTheme = useCallback(
     (slug: ThemeSlug) => {
@@ -43,6 +62,7 @@ export const ThemeContextProvider = ({ themes: themeMap, children }: ThemeContex
       setActiveSlug(slug);
       try {
         localStorage.setItem(STORAGE_KEY, slug);
+        document.documentElement.setAttribute('data-theme', slug);
       } catch {
         // localStorage unavailable
       }
