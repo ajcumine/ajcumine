@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import ReactMarkdown, { type Components } from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import remarkGfm from 'remark-gfm';
 import styled, { css, useTheme } from 'styled-components';
 
 import { codeThemes } from '../../styles/codeThemes';
@@ -15,6 +16,8 @@ import {
   horizontalRuleVariants,
   inlineCodeVariants,
   listVariants,
+  tableVariants,
+  taskListVariants,
 } from './variants';
 
 const H1Wrapper = styled.div`
@@ -125,6 +128,21 @@ const ListItem = styled.li`
   > p:last-of-type {
     margin-bottom: 0;
   }
+
+  // GFM task lists: the checkbox replaces the bullet marker.
+  &.task-list-item {
+    list-style-type: none;
+  }
+
+  input[type='checkbox'] {
+    width: 1.4rem;
+    height: 1.4rem;
+    margin: 0 0.6rem 0 0;
+    vertical-align: -0.15em;
+    accent-color: ${({ theme }) => theme.accent.primary};
+
+    ${({ theme }) => taskListVariants[theme.slug]}
+  }
 `;
 
 const Blockquote = styled.blockquote`
@@ -200,6 +218,43 @@ const HorizontalRule = styled.hr`
   ${({ theme }) => horizontalRuleVariants[theme.slug]}
 `;
 
+const TableWrapper = styled.div`
+  margin-bottom: 2rem;
+  border: 0.1rem solid ${({ theme }) => theme.border.default};
+  border-radius: ${({ theme }) => theme.border.radius};
+  overflow-x: auto;
+
+  ${({ theme }) => tableVariants[theme.slug]}
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4rem;
+  line-height: 2rem;
+`;
+
+// GFM column alignment arrives via the `style` prop, which wins over these
+// defaults as an inline style.
+const TableHeaderCell = styled.th`
+  padding: 1rem 1.2rem;
+  font-weight: 700;
+  text-align: left;
+  border-bottom: 0.2rem solid ${({ theme }) => theme.accent.primary};
+`;
+
+const TableCell = styled.td`
+  padding: 1rem 1.2rem;
+  vertical-align: top;
+  border-bottom: 0.1rem solid ${({ theme }) => theme.border.default};
+`;
+
+const TableBody = styled.tbody`
+  tr:last-child td {
+    border-bottom: none;
+  }
+`;
+
 // In react-markdown v9, the `inline` prop is gone. Fenced blocks get a
 // `language-*` class from remark; inline backticks do not. A bare fence with
 // no language is caught by the newline check.
@@ -213,9 +268,11 @@ export const Markdown = ({ content }: { content: string }) => {
       h3: ({ children }) => <H3>{children}</H3>,
       h4: ({ children }) => <H4>{children}</H4>,
       p: ({ children }) => <Paragraph>{children}</Paragraph>,
-      ul: ({ children }) => <UnorderedList>{children}</UnorderedList>,
-      ol: ({ children }) => <OrderedList>{children}</OrderedList>,
-      li: ({ children }) => <ListItem>{children}</ListItem>,
+      ul: ({ children, className }) => (
+        <UnorderedList className={className}>{children}</UnorderedList>
+      ),
+      ol: ({ children, className }) => <OrderedList className={className}>{children}</OrderedList>,
+      li: ({ children, className }) => <ListItem className={className}>{children}</ListItem>,
       blockquote: ({ children }) => <Blockquote>{children}</Blockquote>,
       a: ({ children, href }) => <MarkdownLink href={href}>{children}</MarkdownLink>,
       strong: ({ children }) => <Strong>{children}</Strong>,
@@ -223,6 +280,14 @@ export const Markdown = ({ content }: { content: string }) => {
       del: ({ children }) => <Strikethrough>{children}</Strikethrough>,
       img: ({ src, alt }) => <Image src={src} alt={alt ?? ''} />,
       hr: () => <HorizontalRule />,
+      table: ({ children }) => (
+        <TableWrapper>
+          <Table>{children}</Table>
+        </TableWrapper>
+      ),
+      tbody: ({ children }) => <TableBody>{children}</TableBody>,
+      th: ({ children, style }) => <TableHeaderCell style={style}>{children}</TableHeaderCell>,
+      td: ({ children, style }) => <TableCell style={style}>{children}</TableCell>,
       pre: ({ children }) => <>{children}</>,
       code: ({ className, children }) => {
         const match = /language-(\w+)/.exec(className || '');
@@ -259,7 +324,7 @@ export const Markdown = ({ content }: { content: string }) => {
 
   return (
     <ProseContainer>
-      <ReactMarkdown components={componentMap}>{content}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={componentMap}>{content}</ReactMarkdown>
     </ProseContainer>
   );
 };

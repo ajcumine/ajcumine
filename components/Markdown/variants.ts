@@ -159,3 +159,91 @@ export const codeBlockVariants: Record<ThemeSlug, ReturnType<typeof css>> = {
     box-shadow: 0 0 1.2rem rgba(255, 106, 193, 0.2);
   `,
 };
+
+export const tableVariants: Record<ThemeSlug, ReturnType<typeof css>> = {
+  'solarized-dark': css``,
+  cyberpunk: css`
+    border-color: rgba(0, 255, 65, 0.35);
+    box-shadow: 0 0 1rem rgba(0, 255, 65, 0.15);
+
+    th {
+      color: ${({ theme }) => theme.accent.primary};
+    }
+  `,
+  'windows-98': css`
+    border: 0.2rem solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    border-radius: 0;
+    background-color: #ffffff;
+
+    th {
+      color: #000080;
+    }
+
+    td {
+      border-bottom-color: #c0c0c0;
+    }
+  `,
+  geocities: css`
+    border: 0.3rem ridge #ff00ff;
+    border-radius: 0;
+
+    th {
+      color: #ffff00;
+      border-bottom-style: dashed;
+    }
+
+    td {
+      border-bottom-style: dashed;
+    }
+  `,
+  bauhaus: css`
+    border: 0.2rem solid #111111;
+    border-radius: 0;
+
+    th {
+      text-transform: uppercase;
+      border-bottom-color: #111111;
+    }
+
+    td {
+      border-bottom-color: #111111;
+    }
+  `,
+  futurism: css`
+    border: none;
+    border-left: 0.4rem solid ${({ theme }) => theme.accent.primary};
+    border-radius: 0;
+
+    th {
+      font-style: italic;
+      border-bottom-color: ${({ theme }) => theme.accent.primary};
+    }
+  `,
+  synthwave: css`
+    border-color: rgba(255, 106, 193, 0.45);
+    box-shadow: 0 0 1.2rem rgba(255, 106, 193, 0.2);
+
+    th {
+      color: ${({ theme }) => theme.accent.primary};
+    }
+
+    td {
+      border-bottom-color: rgba(255, 106, 193, 0.15);
+    }
+  `,
+};
+
+// Applied to GFM task-list checkboxes (li.task-list-item input[type='checkbox']).
+export const taskListVariants: Record<ThemeSlug, ReturnType<typeof css>> = {
+  'solarized-dark': css``,
+  cyberpunk: css``,
+  'windows-98': css`
+    // Native grey checkbox fits the OS chrome better than an accent color.
+    accent-color: auto;
+  `,
+  geocities: css``,
+  bauhaus: css``,
+  futurism: css``,
+  synthwave: css``,
+};
