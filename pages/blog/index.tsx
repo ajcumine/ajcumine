@@ -18,6 +18,12 @@ const blogCards: BlogType[] = [
   //   href: '',
   // },
   {
+    title: 'Technical Project Ownership',
+    description: `A guide for software engineers on what ownership of a technical project means.`,
+    href: '/blog/technical-project-ownership',
+    writtenDate: new Date('2024-05-14'),
+  },
+  {
     title: 'Learning Elm',
     description: `I decided to learn elm, the strongly typed, functional programming language.
     This blogpost outlines my journey in learning elm.`,
