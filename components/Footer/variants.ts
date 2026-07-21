@@ -3,7 +3,24 @@ import { css } from 'styled-components';
 import { ThemeSlug } from '../../styles/theme.types';
 
 export const footerVariants: Record<ThemeSlug, ReturnType<typeof css>> = {
-  'solarized-dark': css``,
+  'solarized-dark': css`
+    // editor status bar
+    font-family: 'Fira Code';
+    font-size: 1.2rem;
+    border-top: 0.1rem solid #073642;
+
+    &::before {
+      content: ' main*';
+      color: #859900;
+      margin-right: 1.6rem;
+    }
+
+    &::after {
+      content: 'UTF-8   LF   Ln 1, Col 1   Fira Code';
+      color: #586e75;
+      margin-left: 1.6rem;
+    }
+  `,
   cyberpunk: css`
     border-top: 0.1rem solid rgba(0, 255, 65, 0.3);
     font-variant-ligatures: none;
@@ -35,15 +52,6 @@ export const footerVariants: Record<ThemeSlug, ReturnType<typeof css>> = {
       text-align: center;
       display: block;
       order: 1;
-    }
-    &::after {
-      content: 'You are visitor #004,721';
-      font-size: 1.2rem;
-      color: #ffff00;
-      font-family: 'Comic Sans MS', cursive;
-      text-align: center;
-      display: block;
-      order: 2;
     }
   `,
   bauhaus: css`

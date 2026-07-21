@@ -34,17 +34,21 @@ const LogoLink = styled.a`
 
 const HiddenLink = styled.a`
   font-size: 2em;
-  color: ${({ theme }) => theme.ui.footerLinkHidden};
+  color: ${({ theme }) => theme.ui.footerLink};
+  opacity: 0.15;
   margin-right: auto;
   margin-bottom: 0;
   border-radius: 0.4rem;
-  transition: color 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    color 0.3s ease;
 
   &:hover {
-    color: ${({ theme }) => theme.ui.footerText};
+    opacity: 1;
   }
 
   &:focus-visible {
+    opacity: 1;
     outline: 0.2rem solid ${({ theme }) => theme.border.focus};
     outline-offset: 0.2rem;
   }
@@ -56,7 +60,7 @@ const HiddenLink = styled.a`
 
 export const Footer = () => (
   <FooterWrapper>
-    <HiddenLink href="/walkthroughs">
+    <HiddenLink href="/walkthroughs" title="psst… walkthroughs">
       <FaGamepad />
     </HiddenLink>
     <LogoLink href="https://github.com/ajcumine">

@@ -7,6 +7,7 @@ import styled, { useTheme } from 'styled-components';
 import { codeThemes } from '../styles/codeThemes';
 
 import { BulletList, BulletListItem } from './BulletList';
+import { horizontalRuleVariants } from './Markdown.variants';
 import { ProseContainer } from './ProseContainer';
 import { AnchorLink, Typography } from './Typography';
 
@@ -62,6 +63,8 @@ const HorizontalRule = styled.hr`
   border: 0.1rem solid;
   border-radius: 0.1rem;
   border-color: ${({ theme }) => theme.accent.highlight};
+
+  ${({ theme }) => horizontalRuleVariants[theme.slug]}
 `;
 
 // In react-markdown v9, the `inline` prop is gone. Distinguish block vs inline

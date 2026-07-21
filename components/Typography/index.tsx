@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { assertNever } from '../../styles/utils';
 
-import { headingVariants, bodyVariants } from './variants';
+import { headingVariants, h2Variants, h3Variants, bodyVariants } from './variants';
 
 interface TypographyProps {
   variant: 'h1' | 'h2' | 'h3' | 'body' | 'secondary';
@@ -27,6 +27,7 @@ const H2 = styled.h2`
   font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
   font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
   ${({ theme }) => headingVariants[theme.slug]}
+  ${({ theme }) => h2Variants[theme.slug]}
 `;
 
 const H3 = styled.h3`
@@ -36,6 +37,7 @@ const H3 = styled.h3`
   font-style: ${({ theme }) => theme.meta.headingFontStyle || 'normal'};
   font-family: ${({ theme }) => theme.meta.fontFamilyHeading || theme.meta.fontFamily};
   ${({ theme }) => headingVariants[theme.slug]}
+  ${({ theme }) => h3Variants[theme.slug]}
 `;
 
 const Body = styled.div`

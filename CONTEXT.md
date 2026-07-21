@@ -18,11 +18,15 @@ A per-component CSS mapping from `ThemeSlug` to styled-components `css` blocks. 
 
 ## Theme Layout Shell
 
-A React component that defines the full page structure for a theme. Used when a theme needs React-level overrides — mounting components, managing state, handling input — that CSS alone cannot express. Examples: a Tetris game in the background, a canvas overlay, a mascot component.
+A React component that defines the full page structure for a theme. Used when a theme needs React-level overrides — mounting components, managing state, handling input — that CSS alone cannot express. Lives in `components/layouts/`, routed by the `ThemeSlug` switch in `components/Page/index.tsx`. Examples: a desktop OS with taskbar and draggable window, a poster composition with a rotated masthead.
+
+## Theme Component
+
+A stateful, theme-specific React component mounted by a Layout Shell. Lives in `components/themes/<slug>/`. Examples: `BootSequence`, `OutrunScene`, `Taskbar`, `ScrollMinimap`. Purely decorative ones are `aria-hidden` and must respect `prefers-reduced-motion` (via `hooks/useReducedMotion.ts`).
 
 ## Default Layout
 
-The standard page structure used by most themes. Comprises `NavBar`, `Footer`, `Page` wrapper, and `ContentWrapper`. Theme-specific CSS is applied via **theme variants** within each component.
+The standard page structure, defined in `components/layouts/DefaultLayout.tsx`. Comprises `NavBar`, `Footer`, and `ContentWrapper`. Shells that only need extra mounted components compose it; shells with structural chrome compose the exported `LayoutWrapper`/`ContentWrapper` primitives directly. Theme-specific CSS is applied via **theme variants** within each component.
 
 ## Exhaustive Switch
 

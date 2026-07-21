@@ -74,7 +74,7 @@ interface ContentCardProps {
 }
 
 export const ContentCard = ({ title, description, href, writtenDate }: ContentCardProps) => (
-  <CardLink href={href}>
+  <CardLink href={href} data-term-title={title}>
     <TitleWrapper>
       <Typography variant="h3">{title}</Typography>
       <TitleDecorator width="3.2rem" />

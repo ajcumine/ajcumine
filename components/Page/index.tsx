@@ -1,79 +1,38 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { useThemeSwitch } from '../../styles/ThemeContext';
 import { assertNever } from '../../styles/utils';
-import { size } from '../../styles/variables';
-import { Footer } from '../Footer';
-import { NavBar } from '../NavBar';
-import { TitleDecorator } from '../TitleDecorator';
-import { Typography } from '../Typography';
+import { BauhausLayout } from '../layouts/BauhausLayout';
+import { CyberpunkLayout } from '../layouts/CyberpunkLayout';
+import { FuturismLayout } from '../layouts/FuturismLayout';
+import { GeocitiesLayout } from '../layouts/GeocitiesLayout';
+import { SolarizedLayout } from '../layouts/SolarizedLayout';
+import { SynthwaveLayout } from '../layouts/SynthwaveLayout';
+import { Win98Layout } from '../layouts/Win98Layout';
 
-import { pageBackgroundVariants } from './variants';
+interface PageProps {
+  children?: React.ReactNode;
+  title?: string;
+}
 
-const Wrapper = styled.div`
-  background-color: ${({ theme }) => theme.background.page};
-  color: ${({ theme }) => theme.text.primary};
-  min-height: 100%;
-  font-family: ${({ theme }) => theme.meta.fontFamily};
-  display: flex;
-  flex-direction: column;
-  transition:
-    background-color 300ms ease-in-out,
-    color 300ms ease-in-out;
-  ${({ theme }) => pageBackgroundVariants[theme.slug]}
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-`;
-
-const ContentWrapper = styled.div`
-  flex: 1 0 auto;
-  margin: 0 2.4rem;
-  @media (min-width: ${size.tablet}) {
-    max-width: 860px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  @media (min-width: ${size.desktop}) {
-    max-width: 1100px;
-  }
-`;
-
-const TitleWrapper = styled.div`
-  margin-bottom: 1.6rem;
-`;
-
-const DefaultLayout = ({ children, title }: { children?: React.ReactNode; title?: string }) => (
-  <Wrapper>
-    <NavBar />
-    <ContentWrapper>
-      {title && (
-        <TitleWrapper>
-          <Typography variant="h1">{title}</Typography>
-          <TitleDecorator />
-        </TitleWrapper>
-      )}
-      {children}
-    </ContentWrapper>
-    <Footer />
-  </Wrapper>
-);
-
-export const Page = ({ children, title }: { children?: React.ReactNode; title?: string }) => {
+export const Page = ({ children, title }: PageProps) => {
   const { themeName } = useThemeSwitch();
 
   switch (themeName) {
     case 'solarized-dark':
+      return <SolarizedLayout title={title}>{children}</SolarizedLayout>;
     case 'cyberpunk':
+      return <CyberpunkLayout title={title}>{children}</CyberpunkLayout>;
     case 'windows-98':
+      return <Win98Layout title={title}>{children}</Win98Layout>;
     case 'geocities':
+      return <GeocitiesLayout title={title}>{children}</GeocitiesLayout>;
     case 'bauhaus':
+      return <BauhausLayout title={title}>{children}</BauhausLayout>;
     case 'futurism':
+      return <FuturismLayout title={title}>{children}</FuturismLayout>;
     case 'synthwave':
-      return <DefaultLayout title={title}>{children}</DefaultLayout>;
+      return <SynthwaveLayout title={title}>{children}</SynthwaveLayout>;
     default:
       return assertNever(themeName);
   }

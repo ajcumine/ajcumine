@@ -598,11 +598,6 @@ const createCheckedStore = (gameSlug: string) => {
     },
   };
 
-  // Hydrate on creation (client only)
-  if (typeof window !== 'undefined') {
-    snapshot = getCheckedItems(gameSlug);
-  }
-
   return store;
 };
 
@@ -662,6 +657,11 @@ export const WalkthroughChecklist = ({ content, gameSlug }: WalkthroughChecklist
   const store = useMemo(() => createCheckedStore(gameSlug), [gameSlug]);
   const checked = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
   const [legendOpen, setLegendOpen] = React.useState(false);
+
+  // Load saved progress after mount so the first client render matches SSR
+  React.useEffect(() => {
+    store.hydrate();
+  }, [store]);
 
   // Get theme for tag colors - using styled-components theme
   const theme = useTheme();
