@@ -69,6 +69,8 @@ With the work broken down you can make a reasonable first guess at a delivery da
 
 There are many ways to estimate. One I like is Little's Law (queuing theory): using averages from historical data, you can work out roughly how long a single item takes to go from idea to release. It holds up surprisingly well provided items are broken down into broadly similar sizes by the same group over time.
 
+> For more info on estimates see my blog post [Estimates and Deadlines](https://ajcumine.com/blog/estimates-and-deadlines)
+
 Once you have a rough estimate, discuss it with your product manager and team:
 
 1. Make clear it's an estimate.

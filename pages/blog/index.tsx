@@ -19,6 +19,18 @@ const blogCards: BlogType[] = [
     writtenDate: new Date('2026-04-01'),
   },
   {
+    title: 'Estimates and deadlines',
+    description: `Estimates are a communication tool, not a deadline. How to use estimates to plan and communicate effectively.`,
+    href: '/blog/estimates-and-deadlines',
+    writtenDate: new Date('2025-12-30')
+  },
+  {
+    title: `Little's Law`,
+    description: `A bit on queuing theory. A great tool for estimation using data.`,
+    href: '/blog/littles-law',
+    writtenDate: new Date('2025-12-30')
+  },
+  {
     title: 'Technical Project Ownership',
     description: `A guide for software engineers on what ownership of a technical project means.`,
     href: '/blog/technical-project-ownership',
