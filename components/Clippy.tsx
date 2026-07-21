@@ -62,7 +62,7 @@ const fadeOut = keyframes`
   }
 `;
 
-const ClippyContainer = styled.div`
+const ClippyContainer = styled.div<{ $x: number; $y: number }>`
   position: fixed;
   bottom: 10rem;
   right: calc(50% - 430px);
@@ -72,6 +72,7 @@ const ClippyContainer = styled.div`
   align-items: flex-end;
   gap: 0.5rem;
   font-family: 'Tahoma', 'MS Sans Serif', 'Arial', sans-serif;
+  transform: translate(${({ $x }) => $x}px, ${({ $y }) => $y}px);
 
   @media (min-width: 1200px) {
     right: calc(50% - 550px);
@@ -86,13 +87,14 @@ const ClippyContainer = styled.div`
   }
 `;
 
-const ClippyCharacter = styled.button<{ $isBouncing: boolean }>`
-  width: 5rem;
-  height: 6.67rem;
+const ClippyCharacter = styled.button<{ $isBouncing: boolean; $isDragging: boolean }>`
+  width: 7.5rem;
+  height: 10rem;
   padding: 0;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: ${({ $isDragging }) => ($isDragging ? 'grabbing' : 'grab')};
+  touch-action: none;
   ${({ $isBouncing }) =>
     $isBouncing
       ? css`
@@ -118,7 +120,7 @@ const ClippyCharacter = styled.button<{ $isBouncing: boolean }>`
 
 const SpeechBubble = styled.div<{ $isVisible: boolean }>`
   position: relative;
-  max-width: 16rem;
+  max-width: 20rem;
   padding: 0.75rem;
   background-color: #ffffe1;
   border: 0.15rem solid #000000;
@@ -166,8 +168,8 @@ const SpeechBubble = styled.div<{ $isVisible: boolean }>`
 
 const SpeechBubbleContent = styled.p`
   margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.4;
+  font-size: 1rem;
+  line-height: 1.5;
   color: #000000;
 `;
 
@@ -274,6 +276,18 @@ export const Clippy = (): React.ReactElement | null => {
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const [isBouncing, setIsBouncing] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+
+  const dragState = React.useRef<{
+    pointerX: number;
+    pointerY: number;
+    baseX: number;
+    baseY: number;
+    moved: boolean;
+    clamp: { minX: number; maxX: number; minY: number; maxY: number };
+  } | null>(null);
+  const suppressClick = React.useRef(false);
 
   const currentMessage = useMemo(() => MESSAGES[messageIndex], [messageIndex]);
 
@@ -284,6 +298,10 @@ export const Clippy = (): React.ReactElement | null => {
   }, []);
 
   const handleClippyClick = useCallback(() => {
+    if (suppressClick.current) {
+      suppressClick.current = false;
+      return;
+    }
     setIsBouncing(true);
     showRandomMessage();
     setTimeout(() => setIsBouncing(false), 500);
@@ -292,6 +310,54 @@ export const Clippy = (): React.ReactElement | null => {
   const handleCloseBubble = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setIsBubbleVisible(false);
+  }, []);
+
+  const handlePointerDown = useCallback(
+    (event: React.PointerEvent<HTMLButtonElement>) => {
+      if (event.button !== 0) return;
+      event.currentTarget.setPointerCapture(event.pointerId);
+      const rect = event.currentTarget.parentElement?.getBoundingClientRect();
+      const margin = 8;
+      dragState.current = {
+        pointerX: event.clientX,
+        pointerY: event.clientY,
+        baseX: offset.x,
+        baseY: offset.y,
+        moved: false,
+        clamp: rect
+          ? {
+              minX: -(rect.left - margin),
+              maxX: window.innerWidth - rect.right - margin,
+              minY: -(rect.top - margin),
+              maxY: window.innerHeight - rect.bottom - margin,
+            }
+          : { minX: -600, maxX: 600, minY: -400, maxY: 400 },
+      };
+      setIsDragging(true);
+    },
+    [offset],
+  );
+
+  const handlePointerMove = useCallback((event: React.PointerEvent<HTMLButtonElement>) => {
+    const drag = dragState.current;
+    if (!drag) return;
+    const dx = event.clientX - drag.pointerX;
+    const dy = event.clientY - drag.pointerY;
+    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) drag.moved = true;
+    if (!drag.moved) return;
+    setOffset({
+      x: Math.min(drag.clamp.maxX, Math.max(drag.clamp.minX, drag.baseX + dx)),
+      y: Math.min(drag.clamp.maxY, Math.max(drag.clamp.minY, drag.baseY + dy)),
+    });
+  }, []);
+
+  const handlePointerEnd = useCallback(() => {
+    if (dragState.current?.moved) {
+      // it was a drag, not a click — swallow the upcoming click event
+      suppressClick.current = true;
+    }
+    dragState.current = null;
+    setIsDragging(false);
   }, []);
 
   // Show bubble automatically after 3 seconds when Clippy appears
@@ -310,7 +376,7 @@ export const Clippy = (): React.ReactElement | null => {
   }
 
   return (
-    <ClippyContainer>
+    <ClippyContainer $x={offset.x} $y={offset.y}>
       <SpeechBubble $isVisible={isBubbleVisible}>
         <CloseButton aria-label="Close message" onClick={handleCloseBubble}>
           ×
@@ -319,9 +385,14 @@ export const Clippy = (): React.ReactElement | null => {
       </SpeechBubble>
       <ClippyCharacter
         $isBouncing={isBouncing}
-        aria-label="Clippy - Click for help"
+        $isDragging={isDragging}
+        aria-label="Clippy - Click for help, drag to move"
         onClick={handleClippyClick}
-        title="Click me for help!"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerEnd}
+        onPointerCancel={handlePointerEnd}
+        title="Click me for help! Drag me around!"
       >
         <ClippySvg />
       </ClippyCharacter>

@@ -15,6 +15,25 @@ export const contentCardVariants: Record<ThemeSlug, ReturnType<typeof css>> = {
     );
     border: none;
     transition: all 0.05s linear;
+    position: relative;
+    padding-top: 4rem;
+
+    // terminal window header
+    &::before {
+      content: 'root@ajcumine:~$ cat ' attr(data-term-title) '.txt';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2.4rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1.1rem;
+      color: rgba(0, 255, 65, 0.65);
+      border-bottom: 0.1rem solid rgba(0, 255, 65, 0.2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   `,
   'windows-98': css`
     border: none;
@@ -59,7 +78,7 @@ export const contentCardVariants: Record<ThemeSlug, ReturnType<typeof css>> = {
     transition: none;
   `,
   futurism: css`
-    transform: skewX(-1deg);
+    transform: skewX(var(--card-skew, -1deg));
     border-left: 0.6rem solid ${({ theme }) => theme.accent.primary};
     transition: all 0.1s linear;
   `,
@@ -100,7 +119,7 @@ export const contentCardHoverVariants: Record<ThemeSlug, ReturnType<typeof css>>
     box-shadow: 0.8rem 0.8rem 0 ${({ theme }) => theme.border.default};
   `,
   futurism: css`
-    transform: skewX(-1deg) translateX(0.8rem);
+    transform: skewX(var(--card-skew, -1deg)) translateX(0.8rem);
     box-shadow: -0.4rem 0 0 ${({ theme }) => theme.accent.primary};
   `,
   synthwave: css`

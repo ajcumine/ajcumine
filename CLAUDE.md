@@ -26,15 +26,27 @@ Blog posts and project pages are stored as Markdown files in `public/docs/`. Pag
 
 ### Key components
 
-- `Page` — shell layout wrapping `NavBar`, `Footer`, and a constrained content column
+- `Page` — routes to a per-theme **Layout Shell** via an exhaustive `ThemeSlug` switch
 - `Markdown` — renders markdown string via `react-markdown` with custom styled-component overrides for all heading/paragraph/code/list elements; uses `react-syntax-highlighter` (Prism, a11yDark theme) for code blocks
 - `Typography` — base text component with variants (`h1`, `h2`, `h3`, `body`)
+
+### Theme system
+
+Seven switchable themes (Solarized Dark default, Cyberpunk, Windows 98, GeoCities, Bauhaus, Futurism, Synthwave), persisted to localStorage via `styles/ThemeContext.tsx`. Architecture per **ADR-0001** (`docs/adr/`):
+
+- **Tokens**: pure data in `styles/themes/*.ts` (`Theme` interface in `styles/theme.types.ts`)
+- **Variants**: per-component `Record<ThemeSlug, css>` maps in `.variants.ts` files alongside components
+- **Layout Shells**: per-theme page structure in `components/layouts/`, routed by `components/Page/index.tsx`
+- **Theme components**: stateful theme-specific components in `components/themes/<slug>/` (boot sequence, taskbar, outrun scene, etc.)
+- **Globals**: overlays/keyframes/cursors in `styles/globalVariants.ts` via `components/ThemeGlobalStyles.tsx`
+
+`THEMES.md` is the behavior manifest — update it when a theme's behavior changes. `CONTEXT.md` defines the domain vocabulary (Theme Variant, Layout Shell, Theme Component). All animation must respect `prefers-reduced-motion` (CSS media query, or `hooks/useReducedMotion.ts` for JS).
 
 ### Styling
 
 - `styled-components` with SSR enabled via `next.config.js` compiler option
-- Design tokens in `styles/variables.ts`: `color` (Solarized palette) and `size` (responsive breakpoints)
-- Global CSS in `styles/globals.css`; Fira Code is the site font
+- Responsive breakpoints (`size`) in `styles/variables.ts`; colors live in the theme system
+- Global CSS in `styles/globals.css`; Fira Code is the default site font (per-theme fonts vary)
 
 ### Linting / formatting
 

@@ -8,7 +8,7 @@ import { useThemeSwitch } from '../../styles/ThemeContext';
 import { themeList, themes } from '../../styles/themes';
 import { size } from '../../styles/variables';
 
-import { switcherAnimations } from './variants';
+import { switcherAnimations, switcherDropdownVariants, switcherTriggerVariants } from './variants';
 
 const SwitcherWrapper = styled.div`
   position: relative;
@@ -43,6 +43,8 @@ const TriggerButton = styled.button<{ $open: boolean }>`
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
+
+  ${({ theme }) => switcherTriggerVariants[theme.slug]}
 `;
 
 const ThemeName = styled.span`
@@ -68,6 +70,8 @@ const Dropdown = styled.div<{ $open: boolean }>`
   display: ${({ $open }) => ($open ? 'block' : 'none')};
   overflow: hidden;
   z-index: 100;
+
+  ${({ theme }) => switcherDropdownVariants[theme.slug]}
 `;
 
 const ThemeList = styled.ul`

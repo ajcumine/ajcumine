@@ -60,6 +60,12 @@ export const globalVariants: Record<ThemeSlug, ReturnType<typeof css>> = {
         rgba(0, 255, 65, 0.03) 4px
       );
     }
+    // toggled by GlitchController for a brief full-page RGB-split flicker
+    body.cp-glitch-active {
+      animation: glitch-shift 0.22s steps(2) both;
+      filter: drop-shadow(0.2rem 0 rgba(255, 0, 60, 0.45))
+        drop-shadow(-0.2rem 0 rgba(0, 255, 245, 0.45));
+    }
   `,
   'windows-98': css`
     body {
@@ -110,6 +116,15 @@ export const globalVariants: Record<ThemeSlug, ReturnType<typeof css>> = {
       }
       100% {
         color: #ff0000;
+      }
+    }
+    @keyframes badge-wobble {
+      0%,
+      100% {
+        transform: rotate(4deg);
+      }
+      50% {
+        transform: rotate(12deg);
       }
     }
     body {
