@@ -32,7 +32,7 @@ Cross-cutting notes:
 | **NavBar**         | `components/NavBar/variants.ts`                 | Editor tab strip: darker chrome, full-height tabs, active = open file |
 | **Footer**         | `components/Footer/variants.ts`                 | Status bar: branch, encoding, `Ln 1, Col 1`, font                     |
 | **ProseContainer** | `components/ProseContainer/variants.ts`         | Line-number gutter (block-level) + current-line hover highlight       |
-| **Markdown**       | `components/Markdown/variants.ts`               | Cyan quote bar, yellow `::marker` list bullets, cyan inline code      |
+| **Markdown**       | `components/Markdown/variants.ts`               | Cyan quote bar, yellow `::marker` list bullets, cyan inline code, accent-ruled tables |
 | **Layout shell**   | `components/layouts/SolarizedLayout.tsx`        | Mounts the minimap                                                    |
 | **ScrollMinimap**  | `components/themes/solarized/ScrollMinimap.tsx` | Right-edge scroll rail (rAF-throttled scroll listener)                |
 | **ThemeSwitcher**  | `components/ThemeSwitcher/variants.ts`          | Status-chip trigger, quick-open dropdown                              |
@@ -58,7 +58,7 @@ Cross-cutting notes:
 | **ContentCard**      | `components/ContentCard/variants.ts`               | Terminal window header via `attr(data-term-title)`                 |
 | **Typography**       | `components/Typography/variants.ts`                | Glitch text-shadow                                                 |
 | **TitleDecorator**   | `components/TitleDecorator/variants.ts`            | Blinking cursor block (`▮`)                                        |
-| **Markdown**         | `components/Markdown/variants.ts`                  | Green-tinted quote panel, glowing code block borders, green inline code |
+| **Markdown**         | `components/Markdown/variants.ts`                  | Green-tinted quote panel, glowing code block borders, green inline code, glowing green-header tables |
 | **Global**           | `styles/globalVariants.ts`                         | Crosshair cursor, scanline overlay, `cp-glitch-active` class       |
 
 ---
@@ -76,7 +76,7 @@ Cross-cutting notes:
 | **Chrome**          | `components/themes/win98/chrome.ts`           | Shared bevels + title-bar styles                                                |
 | **ContentCard**     | `components/ContentCard/variants.ts`          | Window chrome with title bar, beveled borders                                   |
 | **TitleDecorator**  | `components/TitleDecorator/variants.ts`       | Inset line (gray top, white bottom)                                             |
-| **Markdown**        | `components/Markdown/variants.ts`             | Sunken-bevel quote panel + code blocks, square bullets, Courier New inline code |
+| **Markdown**        | `components/Markdown/variants.ts`             | Sunken-bevel quote panel + code blocks, square bullets, Courier New inline code, sunken white tables, native checkboxes |
 | **Global**          | `styles/globalVariants.ts`                    | No font smoothing, selection colors                                             |
 | **Mascot**          | `components/Clippy.tsx`                       | Enabled via `hasMascot: true`; enlarged, draggable (click vs drag)              |
 
@@ -100,7 +100,7 @@ Cross-cutting notes:
 | **CardGrid**      | `components/CardGrid/variants.ts`            | Wobbling `NEW!` sticker on the first card                 |
 | **ContentCard**   | `components/ContentCard/variants.ts`         | Ridge borders                                             |
 | **Typography**    | `components/Typography/variants.ts`          | Centered headings, magenta shadow                         |
-| **Markdown**      | `components/Markdown/variants.ts`            | Double-magenta quote frame, magenta markers, yellow inline code |
+| **Markdown**      | `components/Markdown/variants.ts`            | Double-magenta quote frame, magenta markers, yellow inline code, ridge-frame tables with dashed rules |
 | **Global**        | `styles/globalVariants.ts`                   | Sparkle cursor, rainbow/blink keyframes, `badge-wobble`   |
 
 ---
@@ -117,7 +117,7 @@ Cross-cutting notes:
 | **CardGrid**      | `components/CardGrid/variants.ts`      | CSS-counter numerals bleeding off cards, asymmetric offsets                              |
 | **ContentCard**   | `components/ContentCard/variants.ts`   | Thick black border, hard offset shadow                                                   |
 | **Typography**    | `components/Typography/variants.ts`    | Heavy 900 weight                                                                         |
-| **Markdown**      | `components/Markdown/variants.ts`      | Thick black quote bar + code block border, square bullets, bordered inline code          |
+| **Markdown**      | `components/Markdown/variants.ts`      | Thick black quote bar + code block border, square bullets, bordered inline code, black-frame tables with uppercase headers |
 | **ThemeSwitcher** | `components/ThemeSwitcher/variants.ts` | Thick black-bordered trigger + dropdown                                                  |
 | **Global**        | `styles/globalVariants.ts`             | Disabled transitions (instant, mechanical)                                               |
 
@@ -135,7 +135,7 @@ Cross-cutting notes:
 | **Typography**     | `components/Typography/variants.ts`           | Per-level rotations/skews (`headingVariants` + `h2Variants`/`h3Variants`) |
 | **CardGrid**       | `components/CardGrid/variants.ts`             | Escalating skew via `--card-skew` custom property                         |
 | **ContentCard**    | `components/ContentCard/variants.ts`          | Consumes `--card-skew`; red left border                                   |
-| **Markdown**       | `components/Markdown/variants.ts`             | `>>>` chevron dividers, italic quotes with red bar, red left-border code blocks, dark inline code chips |
+| **Markdown**       | `components/Markdown/variants.ts`             | `>>>` chevron dividers, italic quotes with red bar, red left-border code blocks + tables, dark inline code chips |
 | **TitleDecorator** | `components/TitleDecorator/variants.ts`       | `///` italic marker                                                       |
 | **NavBar**         | `components/NavBar/variants.ts`               | Uppercase italic Impact links, speed-streak shadow under the bar          |
 | **ThemeSwitcher**  | `components/ThemeSwitcher/variants.ts`        | Skewed red-bordered trigger, skewed dropdown                              |
@@ -157,7 +157,7 @@ Cross-cutting notes:
 | **ThemeSwitcher** | `components/ThemeSwitcher/variants.ts`        | Pink neon trigger + glowing dropdown                               |
 | **Page**          | `components/Page/variants.ts`                 | Transparent — the scene provides the visuals                       |
 | **ContentCard**   | `components/ContentCard/variants.ts`          | Pink border glow                                                   |
-| **Markdown**      | `components/Markdown/variants.ts`             | Pink-tinted quote panel, neon-bordered code blocks, cyan inline code |
+| **Markdown**      | `components/Markdown/variants.ts`             | Pink-tinted quote panel, neon-bordered code blocks, cyan inline code, neon pink-header tables |
 | **Global**        | `styles/globalVariants.ts`                    | Subtle scanline overlay                                            |
 
 ---
@@ -199,7 +199,7 @@ Cross-cutting notes:
 - `components/ThemeSwitcher/variants.ts` — `switcherTriggerVariants`, `switcherDropdownVariants`, `switcherAnimations`
 - `components/CardGrid/variants.ts` — `cardGridVariants`
 - `components/ProseContainer/variants.ts` — `proseContainerVariants`
-- `components/Markdown/variants.ts` — `horizontalRuleVariants`, `blockquoteVariants`, `listVariants`, `inlineCodeVariants`, `codeBlockVariants`
+- `components/Markdown/variants.ts` — `horizontalRuleVariants`, `blockquoteVariants`, `listVariants`, `inlineCodeVariants`, `codeBlockVariants`, `tableVariants`, `taskListVariants`
 
 ### Global Files
 
