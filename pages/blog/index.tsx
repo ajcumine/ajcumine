@@ -12,11 +12,12 @@ interface BlogType {
 }
 
 const blogCards: BlogType[] = [
-  // {
-  //   title: '',
-  //   description: '',
-  //   href: '',
-  // },
+  {
+    title: 'Designing a bug process that closes the loop',
+    description: `My experience in designing a bug process that works for everyone.`,
+    href: '/blog/designing-a-bug-process',
+    writtenDate: new Date('2026-04-01'),
+  },
   {
     title: 'Technical Project Ownership',
     description: `A guide for software engineers on what ownership of a technical project means.`,
