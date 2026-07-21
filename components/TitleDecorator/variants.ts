@@ -14,6 +14,11 @@ export const titleDecoratorVariants: Record<ThemeSlug, ReturnType<typeof css>> =
       font-size: 2rem;
       animation: blink-cursor 1s step-end infinite;
     }
+    @media (prefers-reduced-motion: reduce) {
+      &::before {
+        animation: none;
+      }
+    }
   `,
   'windows-98': css`
     height: 0.2rem;

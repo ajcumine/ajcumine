@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { proseContainerVariants } from './variants';
 
 const ProseWrapper = styled.div`
-  max-width: clamp(65ch, 80vw, 768px);
+  width: min(80vw, 768px);
+  max-width: 100%;
   margin: 0 auto;
 
   ${({ theme }) => proseContainerVariants[theme.slug]}
